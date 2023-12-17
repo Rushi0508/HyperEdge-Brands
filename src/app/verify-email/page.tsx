@@ -2,7 +2,6 @@
 import { useSearchParams, notFound, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import axios from "axios";
-export const dynamic = 'force-dynamic'
 
 function page() {
     const router = useRouter()

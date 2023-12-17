@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { parse } from 'url'; // Import the 'parse' function from the 'url' module
 import prisma from '@/app/libs/prismadb';
 import nodemailer from 'nodemailer'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   try{
