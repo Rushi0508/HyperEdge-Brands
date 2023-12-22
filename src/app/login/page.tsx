@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useState } from "react"
 import { ReloadIcon } from "@radix-ui/react-icons"
+import { signIn } from "next-auth/react"
 
 type LoginData = {
   email: string,
@@ -18,7 +19,19 @@ export default function page() {
     const {register, handleSubmit, formState: {errors}} = useForm<LoginData>();
     const onSubmit:SubmitHandler<LoginData> = async(data)=>{
       setIsLoading(true)
-      console.log(data)
+      signIn('credentials', {
+        ...data,
+        redirect: false
+      })
+      .then((callback)=>{
+        if(callback?.error){
+          console.log("Invalid")
+        }
+        if(callback?.ok && !callback?.error){
+          // Success
+        }
+      })
+      .finally(()=>setIsLoading(false))
     }
     return (
       <div
