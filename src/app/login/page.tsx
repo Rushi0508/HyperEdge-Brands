@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { useState } from "react"
+import { ReloadIcon } from "@radix-ui/react-icons"
 
 type LoginData = {
   email: string,
@@ -12,8 +14,10 @@ type LoginData = {
 }
 
 export default function page() {
+    const [isLoading, setIsLoading] = useState(false);
     const {register, handleSubmit, formState: {errors}} = useForm<LoginData>();
     const onSubmit:SubmitHandler<LoginData> = async(data)=>{
+      setIsLoading(true)
       console.log(data)
     }
     return (
@@ -50,7 +54,7 @@ export default function page() {
             <div className="mt-6 flex flex-col gap-2">
               <div>
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" {...register("email", {
+                <Input id="email" disabled={isLoading} type="email" {...register("email", {
                   required: true,
                   pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/,
                 })}/>
@@ -63,7 +67,7 @@ export default function page() {
               </div>
               <div>
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" {...register("password", {
+                <Input disabled={isLoading} id="password" type="password" {...register("password", {
                   required: true,
                   minLength: 6
                 })}/>
@@ -77,7 +81,10 @@ export default function page() {
                 )}
               </div>
               <div>
-                <Button onClick={handleSubmit(onSubmit)} className="w-full mt-2">Login</Button>
+                <Button disabled={isLoading} onClick={handleSubmit(onSubmit)} className="w-full mt-2">
+                  {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
+                  Login
+                </Button>
                 <p className="text-center text-sm mt-3">Not Registered?<a className="text-[#884dee] mx-1" href="https://hyper-e.vercel.app/getting-started">Signup here</a></p>
               </div>
             </div>
