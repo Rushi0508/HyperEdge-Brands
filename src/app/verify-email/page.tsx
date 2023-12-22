@@ -39,7 +39,6 @@ function page() {
         if(!token || !role || !id){
             notFound()
         }else{
-            console.log("hello")
             verifyUser()
         }
     }, [])
