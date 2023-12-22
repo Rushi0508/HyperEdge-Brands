@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
 import AuthContext from './context/Authcontext'
+import ToastContext from './context/ToastContext'
 
 const poppins = Poppins({ subsets: ['latin'], weight: "400" })
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <AuthContext>
+          <ToastContext/>
           {children}
         </AuthContext>
       </body>

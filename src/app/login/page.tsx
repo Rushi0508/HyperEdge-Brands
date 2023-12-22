@@ -8,6 +8,8 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { useState } from "react"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 type LoginData = {
   email: string,
@@ -16,6 +18,7 @@ type LoginData = {
 
 export default function page() {
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter()
     const {register, handleSubmit, formState: {errors}} = useForm<LoginData>();
     const onSubmit:SubmitHandler<LoginData> = async(data)=>{
       setIsLoading(true)
@@ -25,10 +28,11 @@ export default function page() {
       })
       .then((callback)=>{
         if(callback?.error){
-          console.log("Invalid")
+          toast.error("Invalid Crendentials")
         }
         if(callback?.ok && !callback?.error){
-          // Success
+          toast.success("Logged in")
+          router.push('/')
         }
       })
       .finally(()=>setIsLoading(false))
