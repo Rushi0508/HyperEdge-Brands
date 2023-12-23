@@ -5,9 +5,9 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ReloadIcon } from "@radix-ui/react-icons"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
@@ -19,6 +19,7 @@ type LoginData = {
 export default function page() {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter()
+    const session = useSession();
     const {register, handleSubmit, formState: {errors}} = useForm<LoginData>();
     const onSubmit:SubmitHandler<LoginData> = async(data)=>{
       setIsLoading(true)
@@ -37,6 +38,13 @@ export default function page() {
       })
       .finally(()=>setIsLoading(false))
     }
+
+    useEffect(()=>{
+      if(session?.status === 'authenticated'){
+          router.push('/');
+      }
+    }, [session?.status, router])
+
     return (
       <div
         className="
