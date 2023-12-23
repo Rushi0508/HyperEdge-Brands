@@ -18,8 +18,12 @@ type LoginData = {
 
 export default function page() {
     const [isLoading, setIsLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(true);
     const router = useRouter()
     const session = useSession();
+    if(session?.status=="authenticated"){
+      router.push('/')
+    }
     const {register, handleSubmit, formState: {errors}} = useForm<LoginData>();
     const onSubmit:SubmitHandler<LoginData> = async(data)=>{
       setIsLoading(true)
@@ -42,10 +46,13 @@ export default function page() {
     useEffect(()=>{
       if(session?.status === 'authenticated'){
           router.push('/');
+      }else{
+        setPageLoading(false);
       }
     }, [session?.status, router])
 
     return (
+      !pageLoading &&
       <div
         className="
           flex
