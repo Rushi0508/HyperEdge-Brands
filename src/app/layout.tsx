@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google'
 import './globals.css'
 import ToastContext from './context/ToastContext'
 import AuthContext from './context/Authcontext'
+import Navbar from './components/Navbar'
 
 const poppins = Poppins({ subsets: ['latin'], weight: "400" })
 
@@ -12,9 +13,9 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children,
+  children,req
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,req:any
 }) {
   return (
     <html lang="en">
