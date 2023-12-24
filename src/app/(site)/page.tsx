@@ -1,8 +1,12 @@
-import Image from 'next/image'
+import getCurrentUser from '../actions/getCurrentUser'
 
-export default function Home() {
+const Home = async ()=> {
+    const user = await getCurrentUser();
   return (
     <>
+        <div className="text-2xl font-semibold my-4">Hi, {user?.fullName} 👋</div>
     </>
   )
 }
+
+export default Home
