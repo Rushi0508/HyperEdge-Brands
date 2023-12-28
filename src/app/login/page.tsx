@@ -27,7 +27,7 @@ export default function page() {
     const {register, handleSubmit, formState: {errors}} = useForm<LoginData>();
     const onSubmit:SubmitHandler<LoginData> = async(data)=>{
       setIsLoading(true)
-      signIn('credentials', {
+      await signIn('credentials', {
         ...data,
         redirect: false
       })
