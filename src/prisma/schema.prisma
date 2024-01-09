@@ -37,6 +37,7 @@ model Creator {
   unit            Unit?
   languagesSpoken String[]
   categories      String[]
+  subCategories   String[]
   city            String?
   state           String?
   country         String?
