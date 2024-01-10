@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ReloadIcon } from '@radix-ui/react-icons'
+import { ChevronLeftIcon, ReloadIcon } from '@radix-ui/react-icons'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -27,9 +27,9 @@ import getCurrentUser from '@/app/actions/getCurrentUser'
     subLabels?: string[]
 }
 
-function ProfessionalCard({setVisible}:any) {
+function ProfessionalCard({setVisible,user}:any) {
     const [isLoading, setIsLoading] = useState(false)
-    const [charges,setCharges] = useState<any>(null)
+    const [charges,setCharges] = useState<any>("")
     const [unit, setUnit] = useState("")
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState<optionProps[]>();
@@ -42,6 +42,14 @@ function ProfessionalCard({setVisible}:any) {
         const fetchData = async()=>{
             setCategoryOptions(await getAllCategories())
             setLanguageOptions(await getAllLanguages())
+        }
+        if(user){
+            setTitle(user.title)
+            setCategory(user.categories.map((c:optionProps)=>({value: c,label: c})))
+            setSubCategory(user.subCategories.map((c:optionProps)=>({value: c,label: c})))
+            setLanguages(user.languagesSpoken.map((l:optionProps)=>({value: l,label: l})))
+            setCharges(user.charges)
+            setUnit(user.unit)
         }
         fetchData();
     }, [])
@@ -96,19 +104,19 @@ function ProfessionalCard({setVisible}:any) {
                 <div className='flex gap-2'>
                     <div className='w-2/3'>
                         <Label htmlFor='title'>Title <span className='text-gray-500'>(Enter a single sentence description of your professional skills/experience)</span></Label>
-                        <Input disabled={isLoading} id='title' onChange={(e)=>setTitle(e.target.value)}/>
+                        <Input value={title} disabled={isLoading} id='title' onChange={(e)=>setTitle(e.target.value)}/>
                     </div>
                     <div className='w-1/3'>
                         <Label htmlFor='charges'>Charges<span className='text-gray-500'>($)</span></Label>
                         <div className="flex gap-1 items-center">
-                            <Input  className='w-1/3' disabled={isLoading} id='charges' onChange={(e)=>setCharges(e.target.value)}/>
+                            <Input value={charges} className='w-1/3' disabled={isLoading} id='charges' onChange={(e)=>setCharges(e.target.value)}/>
                             /
                             <Sel onValueChange={(e)=>setUnit(e)}>
                                 <SelectTrigger className='w-2/3'>
-                                    <SelectValue placeholder="Select Type"/>
+                                    <SelectValue placeholder={`${unit? unit.slice(4):"Select type" }`}/>
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem defaultChecked value="PER_POST">POST</SelectItem>
+                                    <SelectItem value="PER_POST">POST</SelectItem>
                                     <SelectItem value="PER_VIDEO">VIDEO</SelectItem>
                                     <SelectItem value="PER_DAY">DAY</SelectItem>
                                     <SelectItem value="PER_HOUR">HOUR</SelectItem>
@@ -120,22 +128,23 @@ function ProfessionalCard({setVisible}:any) {
                 <div className='flex gap-3'>
                     <div className='w-full'>
                     <Label htmlFor='category'>Content Category</Label>
-                    <Select isDisabled={isLoading} options={categoryOptions} isLoading={categoryOptions? false:true} onChange={handleCategoryChange} isMulti isSearchable/>
+                    <Select value={category} isDisabled={isLoading} options={categoryOptions} isLoading={categoryOptions? false:true} onChange={handleCategoryChange} isMulti isSearchable/>
                     </div>
                 </div>
                 <div>
                     <div className='w-full'>
                     <Label htmlFor='category'>Sub Category</Label>
-                    <Select isDisabled={isLoading} onMenuOpen={fetchSubCategory}  options={subCategoryOptions} onChange={handleSubCategoryChange} isMulti isSearchable/>
+                    <Select value={subCategory} isDisabled={isLoading} onMenuOpen={fetchSubCategory}  options={subCategoryOptions} onChange={handleSubCategoryChange} isMulti isSearchable/>
                     </div>
                 </div>
                 <div>
                     <div className='w-full'>
                     <Label htmlFor='languages'>Languages Spoken</Label>
-                    <Select isDisabled={isLoading} options={languageOptions} onChange={(lang:any)=>setLanguages(lang)} isLoading={languageOptions? false:true} isMulti/>
+                    <Select value={languages} isDisabled={isLoading} options={languageOptions} onChange={(lang:any)=>setLanguages(lang)} isLoading={languageOptions? false:true} isMulti/>
                     </div>
                 </div>
                 <div className='flex gap-1 justify-end'>
+                    <Button onClick={()=>setVisible("1")} disabled={isLoading} variant={'link'}><ChevronLeftIcon className='h-5 w-5'/></Button>
                     <Button disabled={isLoading} onClick={onSubmit}>
                         {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
                         Save

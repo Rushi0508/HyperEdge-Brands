@@ -19,7 +19,6 @@ export async function getAllLanguages() {
       .map((language, index) => ({ value: index.toString(), label: language }))
       .value();
 
-      console.log('List of all languages:');
       return allLanguages
     } else {
       return []

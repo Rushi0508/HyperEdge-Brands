@@ -8,14 +8,16 @@ import Select from 'react-select'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { ReloadIcon } from '@radix-ui/react-icons'
+import { ChevronLeftIcon, ReloadIcon } from '@radix-ui/react-icons'
+import Loading from '../settings/loading'
+import { useRouter } from 'next/navigation'
 
 type optionProps = {
     value: number | string,
     label: string,
 }
 
-function PersonalCard({setVisible}:any) {
+function PersonalCard({setVisible,user}:any) {
     const [country,setCountry] = useState("")
     const [state,setState] = useState("")
     const [city,setCity] = useState("")
@@ -24,8 +26,10 @@ function PersonalCard({setVisible}:any) {
     const [cityOptions, setCityOptions] = useState<optionProps[]>()
     const [isLoading, setIsLoading] = useState(false)
 
+    const router = useRouter()
+
     const {
-      register, handleSubmit, formState: {errors}
+      register,setValue, handleSubmit, formState: {errors}
     } = useForm();
 
     const onSubmit = async (body:any)=>{
@@ -45,6 +49,17 @@ function PersonalCard({setVisible}:any) {
     }
 
     useEffect(() => {
+        // // Set user data
+        if(user){
+          setCountry(user.country)
+          setState(user.state)
+          setCity(user.city)
+          setValue('fullName', user.fullName)
+          setValue('email', user.email)
+          setValue('username', user.username)
+          setValue('phoneNumber', user.phoneNumber)
+          setValue('bio', user.bio)
+        }
         // Fetch countries from REST Countries API
         axios.get('https://restcountries.com/v2/all')
           .then(response => {
@@ -57,18 +72,16 @@ function PersonalCard({setVisible}:any) {
           .catch(error => {
             console.error('Error fetching countries:', error);
           });
-      }, []);  
+      }, [user]);  
 
       useEffect(() => {
         // Fetch states based on the selected country
         if (country) {
-            console.log("Fetching States")
           axios.post(`https://countriesnow.space/api/v0.1/countries/states`, {
             country: country
           })
             .then(response => {
               const selectedCountryData = response.data.data.states;
-              console.log(selectedCountryData)
               const states = selectedCountryData?.map((state:any) => state.name) || [];
               setStateOptions(states.map((state:any, index:any)=>({
                 value: index,
@@ -89,7 +102,6 @@ function PersonalCard({setVisible}:any) {
           })
             .then(response => {
               const cities = response.data.data
-              console.log(cities)
               setCityOptions(cities.map((city:any, index:any)=>({
                 value: index,
                 label: city
@@ -100,6 +112,7 @@ function PersonalCard({setVisible}:any) {
             });
         }
       }, [country, state]);
+
   return (
     <Card>
         <CardHeader>
@@ -153,23 +166,24 @@ function PersonalCard({setVisible}:any) {
             <div className='flex gap-3'>
                 <div className='w-full'>
                 <Label htmlFor='country'>Country</Label>
-                <Select isDisabled={isLoading} options={countryOptions} isLoading={countryOptions? false:true} onChange={(e:any)=>setCountry(e.label)}/>
+                <Select value={{value: country, label: country}} isDisabled={isLoading} options={countryOptions} isLoading={countryOptions? false:true} onChange={(e:any)=>setCountry(e.label)}/>
                 </div>
                 <div className='w-full'>
                 <Label htmlFor='state'>State</Label>
-                <Select isDisabled={isLoading} options={stateOptions} onChange={(e:any)=>setState(e.label)}/>
+                <Select value={{value: state, label: state}} isDisabled={isLoading} options={stateOptions} onChange={(e:any)=>setState(e.label)}/>
                 </div>
                 <div className='w-full'>
                 <Label htmlFor='city'>City</Label>
-                <Select isDisabled={isLoading} options={cityOptions} onChange={(e:any)=>setCity(e.label)}/>
+                <Select value={{value: city, label: city}} isDisabled={isLoading} options={cityOptions} onChange={(e:any)=>setCity(e.label)}/>
                 </div>
             </div>
             <div className='flex gap-1 justify-end'>
-                <Button disabled={isLoading} onClick={handleSubmit(onSubmit)}>
-                  {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
-                  Save
-                </Button>
-                <Button disabled={isLoading} onClick={()=> setVisible("2")} variant={'link'}>Next</Button>
+                <Button onClick={()=>router.back()} disabled={isLoading} variant={'link'}><ChevronLeftIcon className='h-5 w-5'/></Button>
+                  <Button disabled={isLoading} onClick={onSubmit}>
+                      {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
+                      Save
+                  </Button>
+                <Button disabled={isLoading} onClick={()=> setVisible(("2"))} variant={'link'}>Next</Button>
             </div>
         </CardContent>
     </Card>
