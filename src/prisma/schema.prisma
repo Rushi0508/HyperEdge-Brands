@@ -32,7 +32,7 @@ model Creator {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  heading         String?
+  title           String?
   charges         Int?
   unit            Unit?
   languagesSpoken String[]
