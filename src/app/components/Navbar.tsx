@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { BellIcon } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { signOut } from "next-auth/react";
 
 function Navbar() {
   const [profileMenu, setProfileMenu] = useState(false);
@@ -117,7 +118,7 @@ function Navbar() {
                   <Link href={"/profile"}>
                     <li className="mt-3 hover:text-purple-500">Profile</li>
                   </Link>
-                  <li className="my-3 hover:text-purple-500">Logout</li>
+                  <li onClick={async()=>{await signOut({redirect: false});window.location.reload()}} className="my-3 hover:text-purple-500">Logout</li>
                 </ul>
               </div>
             </div>
