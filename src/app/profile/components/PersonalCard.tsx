@@ -6,6 +6,9 @@ import { Textarea } from '@/components/ui/textarea'
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import axios from 'axios'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { ReloadIcon } from '@radix-ui/react-icons'
 
 type optionProps = {
     value: number | string,
@@ -19,6 +22,27 @@ function PersonalCard({setVisible}:any) {
     const [countryOptions, setCountryOptions] = useState<optionProps[]>()
     const [stateOptions, setStateOptions] = useState<optionProps[]>()
     const [cityOptions, setCityOptions] = useState<optionProps[]>()
+    const [isLoading, setIsLoading] = useState(false)
+
+    const {
+      register, handleSubmit, formState: {errors}
+    } = useForm();
+
+    const onSubmit = async (body:any)=>{
+        setIsLoading(true)
+        console.log(body)
+        if(country) body.country = country;
+        if(state) body.state = state;
+        if(city) body.city = city;
+        const {data} = await axios.post('/api/profile', body);
+        if(data.hasOwnProperty('errors')){
+          toast.error("Data not stored. Try again")
+        } 
+        if(data.hasOwnProperty('success')){
+          toast.success("Data Saved")
+        }
+        setIsLoading(false)
+    }
 
     useEffect(() => {
         // Fetch countries from REST Countries API
@@ -86,44 +110,66 @@ function PersonalCard({setVisible}:any) {
             <div className='flex gap-3'>
                 <div className='w-full'>
                 <Label htmlFor='name'>Name</Label>
-                <Input/>
+                <Input disabled={isLoading} id='name' {...register('fullName', {
+                    required: true
+                })}/>
+                {errors.name && errors.name.type === "required" && (
+                  <p className="mt-1 mb-0 text-red-600 text-sm">Name is required.</p>
+                )}
                 </div>
                 <div className='w-full'>
                 <Label htmlFor='email'>Email</Label>
-                <Input/>
+                <Input disabled={isLoading} id="email" type="email" {...register("email", {
+                  required: true,
+                  pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/,
+                })}/>
+                {errors.email && errors.email.type === "required" && (
+                  <p className="mt-1 mb-0 text-red-600 text-sm">Email is required.</p>
+                )}
+                {errors.email && errors.email.type === "pattern" && (
+                  <p className="mt-1 mb-0 text-red-600 text-sm">Email is not valid.</p>
+                )}
                 </div>
             </div>
             <div className='flex gap-3'>
                 <div className='w-full'>
                 <Label htmlFor='username'>Username</Label>
-                <Input/>
+                <Input disabled={isLoading} id='username' {...register('username')} />
                 </div>
                 <div className='w-full'>
                 <Label htmlFor='phone'>Contact No.</Label>
-                <Input/>
+                <Input disabled={isLoading} id='phone' {...register('phoneNumber', {
+                  minLength: 10,maxLength: 10
+                })}/>
+                {errors.phoneNumber && (errors.phoneNumber.type === "minLength" || "maxLength") && (
+                  <p className="mt-1 mb-0 text-red-600 text-sm">Contact No. is not valid.</p>
+                )}
                 </div>
             </div>
             <div>
                 <Label htmlFor='bio'>Bio</Label>
-                <Textarea/>
+                <Textarea disabled={isLoading} id='bio' {...register('bio')} />
             </div>
             <div className='flex gap-3'>
                 <div className='w-full'>
                 <Label htmlFor='country'>Country</Label>
-                <Select options={countryOptions} isLoading={countryOptions? false:true} onChange={(e:any)=>setCountry(e.label)}/>
+                <Select isDisabled={isLoading} options={countryOptions} isLoading={countryOptions? false:true} onChange={(e:any)=>setCountry(e.label)}/>
                 </div>
                 <div className='w-full'>
                 <Label htmlFor='state'>State</Label>
-                <Select options={stateOptions} onChange={(e:any)=>setState(e.label)}/>
+                <Select isDisabled={isLoading} options={stateOptions} onChange={(e:any)=>setState(e.label)}/>
                 </div>
                 <div className='w-full'>
                 <Label htmlFor='city'>City</Label>
-                <Select options={cityOptions} onChange={(e:any)=>setCity(e.label)}/>
+                <Select isDisabled={isLoading} options={cityOptions} onChange={(e:any)=>setCity(e.label)}/>
                 </div>
             </div>
             <div className='flex gap-1 justify-end'>
-                <Button>Save</Button>
-                <Button onClick={()=> setVisible("2")} variant={'link'}>Next</Button>
+                <Button disabled={isLoading} onClick={handleSubmit(onSubmit)}>
+                  {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
+                  Save
+                </Button>
+                <Button disabled={isLoading} onClick={()=> setVisible("2")} variant={'link'}>Next</Button>
             </div>
         </CardContent>
     </Card>
