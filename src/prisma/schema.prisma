@@ -32,11 +32,12 @@ model Creator {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  heading         String?
+  title           String?
   charges         Int?
   unit            Unit?
   languagesSpoken String[]
   categories      String[]
+  subCategories   String[]
   city            String?
   state           String?
   country         String?
