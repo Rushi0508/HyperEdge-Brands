@@ -20,6 +20,7 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import getCurrentUser from '@/app/actions/getCurrentUser'
+import { calculateProfileCompletion } from '@/app/actions/calculateProfileCompletion'
 
   type optionProps = {
     value: number | string,
@@ -27,7 +28,7 @@ import getCurrentUser from '@/app/actions/getCurrentUser'
     subLabels?: string[]
 }
 
-function ProfessionalCard({setVisible,user}:any) {
+function ProfessionalCard({setVisible,user,setProgress}:any) {
     const [isLoading, setIsLoading] = useState(false)
     const [charges,setCharges] = useState<any>("")
     const [unit, setUnit] = useState("")
@@ -85,7 +86,8 @@ function ProfessionalCard({setVisible,user}:any) {
                 toast.error("Data not stored. Try again")
             } 
             if(data.hasOwnProperty('success')){
-            toast.success("Data Saved")
+                toast.success("Data Saved")
+                setProgress(calculateProfileCompletion(data.user))
             }
         }catch(error){
             return toast.error("Something went wrong")

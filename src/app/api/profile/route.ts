@@ -13,7 +13,7 @@ export async function POST(req: Request){
             },
             data: body
         })
-        return NextResponse.json({success: true})
+        return NextResponse.json({success: true, user:updatedUser})
     }catch(error){
         console.log(error)
         return NextResponse.json({errors: error})

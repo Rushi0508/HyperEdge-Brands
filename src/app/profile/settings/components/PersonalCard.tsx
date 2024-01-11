@@ -9,15 +9,16 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { ChevronLeftIcon, ReloadIcon } from '@radix-ui/react-icons'
-import Loading from '../settings/loading'
+import Loading from '../loading'
 import { useRouter } from 'next/navigation'
+import { calculateProfileCompletion } from '@/app/actions/calculateProfileCompletion'
 
 type optionProps = {
     value: number | string,
     label: string,
 }
 
-function PersonalCard({setVisible,user}:any) {
+function PersonalCard({setVisible,user,setProgress}:any) {
     const [country,setCountry] = useState("")
     const [state,setState] = useState("")
     const [city,setCity] = useState("")
@@ -44,6 +45,7 @@ function PersonalCard({setVisible,user}:any) {
         } 
         if(data.hasOwnProperty('success')){
           toast.success("Data Saved")
+          setProgress(calculateProfileCompletion(data.user))
         }
         setIsLoading(false)
     }
