@@ -4,7 +4,6 @@ import { parse } from "url";
 
 export async function POST(req: Request){
     try{
-        var { query } = parse(req.url || '', true);
         const body = await req.json();
         const user = await getCurrentUser();
         const updatedUser = await prisma?.creator.update({

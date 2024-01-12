@@ -181,7 +181,7 @@ function PersonalCard({setVisible,user,setProgress}:any) {
             </div>
             <div className='flex gap-1 justify-end'>
                 <Button onClick={()=>router.back()} disabled={isLoading} variant={'link'}><ChevronLeftIcon className='h-5 w-5'/></Button>
-                  <Button disabled={isLoading} onClick={onSubmit}>
+                  <Button disabled={isLoading} onClick={handleSubmit(onSubmit)}>
                       {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
                       Save
                   </Button>
