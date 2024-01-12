@@ -15,9 +15,11 @@ import {
 import { BellIcon } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
   const [profileMenu, setProfileMenu] = useState(false);
+  const router = useRouter()
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-screen-2xl items-center">
@@ -118,7 +120,7 @@ function Navbar() {
                   <Link href={"/profile"}>
                     <li className="mt-3 hover:text-purple-500">Profile</li>
                   </Link>
-                  <li onClick={async()=>{await signOut({redirect: false});window.location.reload()}} className="my-3 hover:text-purple-500">Logout</li>
+                  <li onClick={async()=>{await signOut({redirect: false});router.push('/login')}} className="my-3 hover:text-purple-500">Logout</li>
                 </ul>
               </div>
             </div>

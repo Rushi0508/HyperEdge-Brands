@@ -113,7 +113,7 @@ function ProfessionalCard({setVisible,user,setProgress}:any) {
                         <div className="flex gap-1 items-center">
                             <Input value={charges} className='w-1/3' disabled={isLoading} id='charges' onChange={(e)=>setCharges(e.target.value)}/>
                             /
-                            <Sel onValueChange={(e)=>setUnit(e)}>
+                            <Sel disabled={isLoading} onValueChange={(e)=>setUnit(e)}>
                                 <SelectTrigger className='w-2/3'>
                                     <SelectValue placeholder={`${unit? unit.slice(4):"Select type" }`}/>
                                 </SelectTrigger>
