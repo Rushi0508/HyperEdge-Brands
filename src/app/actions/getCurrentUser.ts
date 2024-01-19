@@ -9,7 +9,7 @@ const getCurrentUser = async () => {
             return null;
         }
 
-        const currentUser = await prisma.creator.findUnique({
+        const currentUser = await prisma.brand.findUnique({
             where:{
                 email : session.user.email as string
             }

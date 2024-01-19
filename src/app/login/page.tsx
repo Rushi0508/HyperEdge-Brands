@@ -117,7 +117,7 @@ export default function page() {
                   {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
                   Login
                 </Button>
-                <p className="text-center text-sm mt-3">Not Registered?<a className="text-[#884dee] mx-1" href="https://hyper-e.vercel.app/getting-started">Signup here</a></p>
+                <p className="text-center text-sm mt-3">Not Registered?<a className="text-[#e11d48] mx-1" href="https://hyper-e.vercel.app/getting-started">Signup here</a></p>
               </div>
             </div>
         </div>
