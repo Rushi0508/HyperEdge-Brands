@@ -31,13 +31,10 @@ function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Find Brands</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>Find Creators</NavigationMenuTrigger>
                   <NavigationMenuContent className="flex flex-col pl-5 pr-10">
                     <NavigationMenuLink className="mt-3">
-                      Find Brands
-                    </NavigationMenuLink>
-                    <NavigationMenuLink className="mt-3">
-                      Proposals
+                      Find Creators
                     </NavigationMenuLink>
                     <NavigationMenuLink className="my-3">
                       Profile
@@ -49,13 +46,16 @@ function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>My Work</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>Campaigns</NavigationMenuTrigger>
                   <NavigationMenuContent className="flex flex-col pl-5 pr-10">
                     <NavigationMenuLink className="mt-3">
-                      My Work
+                      Campaigns
+                    </NavigationMenuLink>
+                    <NavigationMenuLink className="mt-3">
+                      Create Campaign
                     </NavigationMenuLink>
                     <NavigationMenuLink className="my-3">
-                      All Campaigns
+                      Collaborations
                     </NavigationMenuLink>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
