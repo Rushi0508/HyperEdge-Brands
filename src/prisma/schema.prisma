@@ -127,6 +127,9 @@ model Brand {
   website         String?
   logo            String?
   industry        String?
+  country         String?
+  state           String?
+  city            String?
   emailVerified   Boolean?        @default(false)
   phoneVerified   Boolean?        @default(false)
   campaigns       Campaign[]

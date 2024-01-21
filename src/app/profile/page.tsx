@@ -1,10 +1,6 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React, { useEffect, useState } from "react";
-import getCurrentUser from "../actions/getCurrentUser";
-import { Button } from "@/components/ui/button";
 import { Pencil1Icon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import axios from "axios";

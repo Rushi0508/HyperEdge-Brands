@@ -4,7 +4,7 @@ const Home = async ()=> {
     const user = await getCurrentUser();
   return (
     <>
-        <div className="text-2xl font-semibold my-4">Hi, {user?.fullName} 👋</div>
+        <div className="text-2xl font-semibold my-4">Hi, {user?.personName} 👋</div>
     </>
   )
 }

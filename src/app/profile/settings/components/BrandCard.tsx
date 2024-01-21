@@ -18,7 +18,7 @@ type optionProps = {
     label: string,
 }
 
-function PersonalCard({setVisible,user,setProgress}:any) {
+function BrandCard({setVisible,user,setProgress}:any) {
     const [country,setCountry] = useState("")
     const [state,setState] = useState("")
     const [city,setCity] = useState("")
@@ -56,11 +56,10 @@ function PersonalCard({setVisible,user,setProgress}:any) {
           setCountry(user.country)
           setState(user.state)
           setCity(user.city)
-          setValue('fullName', user.fullName)
-          setValue('email', user.email)
-          setValue('username', user.username)
-          setValue('phoneNumber', user.phoneNumber)
-          setValue('bio', user.bio)
+          setValue('name', user.name)
+          setValue('industry', user.industry)
+          setValue('description', user.description)
+          setValue('website', user.website)
         }
         // Fetch countries from REST Countries API
         axios.get('https://restcountries.com/v2/all')
@@ -118,52 +117,31 @@ function PersonalCard({setVisible,user,setProgress}:any) {
   return (
     <Card>
         <CardHeader>
-            <CardTitle className='text-xl'>Personal Information</CardTitle>
-            <CardDescription>Fill out your basic information</CardDescription>
+            <CardTitle className='text-xl'>Brand Information</CardTitle>
+            <CardDescription>Fill out the brand information</CardDescription>
         </CardHeader>
         <CardContent className='flex flex-col gap-3'>
             <div className='flex gap-3'>
                 <div className='w-full'>
-                <Label htmlFor='name'>Name</Label>
-                <Input disabled={isLoading} id='name' {...register('fullName', {
+                <Label htmlFor='name'>Brand Name</Label>
+                <Input disabled={isLoading} id='name' {...register('name', {
                     required: true
                 })}/>
-                {errors.name && errors.name.type === "required" && (
-                  <p className="mt-1 mb-0 text-red-600 text-sm">Name is required.</p>
-                )}
                 </div>
                 <div className='w-full'>
-                <Label htmlFor='email'>Email</Label>
-                <Input disabled={isLoading} id="email" type="email" {...register("email", {
-                  required: true,
-                  pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/,
-                })}/>
-                {errors.email && errors.email.type === "required" && (
-                  <p className="mt-1 mb-0 text-red-600 text-sm">Email is required.</p>
-                )}
-                {errors.email && errors.email.type === "pattern" && (
-                  <p className="mt-1 mb-0 text-red-600 text-sm">Email is not valid.</p>
-                )}
+                <Label htmlFor='industry'>Industry(Sector)</Label>
+                <Input disabled={isLoading} id="industry" type="text" {...register("industry")}/>
                 </div>
             </div>
             <div className='flex gap-3'>
                 <div className='w-full'>
-                <Label htmlFor='username'>Username</Label>
-                <Input disabled={isLoading} id='username' {...register('username')} />
-                </div>
-                <div className='w-full'>
-                <Label htmlFor='phone'>Contact No.</Label>
-                <Input disabled={isLoading} id='phone' {...register('phoneNumber', {
-                  minLength: 10,maxLength: 10
-                })}/>
-                {errors.phoneNumber && (errors.phoneNumber.type === "minLength" || "maxLength") && (
-                  <p className="mt-1 mb-0 text-red-600 text-sm">Contact No. is not valid.</p>
-                )}
+                <Label htmlFor='website'>Website</Label>
+                <Input disabled={isLoading} id='website' {...register('website')} />
                 </div>
             </div>
             <div>
-                <Label htmlFor='bio'>Bio</Label>
-                <Textarea disabled={isLoading} id='bio' {...register('bio')} />
+                <Label htmlFor='des'>Description</Label>
+                <Textarea disabled={isLoading} id='des' {...register('description')} />
             </div>
             <div className='flex gap-3'>
                 <div className='w-full'>
@@ -192,4 +170,4 @@ function PersonalCard({setVisible,user,setProgress}:any) {
   )
 }
 
-export default PersonalCard
+export default BrandCard

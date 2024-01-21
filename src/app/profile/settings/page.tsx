@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import ProfessionalCard from './components/ProfessionalCard'
-import PersonalCard from './components/PersonalCard'
+import RepresentativeCard from './components/RepresentativeCard'
+import BrandCard from './components/BrandCard'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Loading from './loading';
@@ -37,10 +37,10 @@ function page() {
     </div>
     <div className='mt-8'>
         {
-            visible == "1" && <PersonalCard setVisible={setVisible} setProgress={setProgress} user={user}/>
+            visible == "1" && <BrandCard setVisible={setVisible} setProgress={setProgress} user={user}/>
         }
         {
-            visible == "2" && <ProfessionalCard setVisible={setVisible} setProgress={setProgress} user={user} />
+            visible == "2" && <RepresentativeCard setVisible={setVisible} setProgress={setProgress} user={user} />
         }
     </div>
     </>
