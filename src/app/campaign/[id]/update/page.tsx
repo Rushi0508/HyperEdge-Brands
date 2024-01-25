@@ -10,17 +10,18 @@ import { Textarea } from '@/components/ui/textarea';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast';
 
 function page() {
   const {
-    register, handleSubmit, formState: {errors}
+    register,setValue, handleSubmit, formState: {errors}
   } = useForm();
 
   const router = useRouter()
 
+  const [campaign, setCampaign] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [type, setType] = useState("")
   const [pub, setPublic] = useState(false)
@@ -49,9 +50,10 @@ function page() {
     body.visibility = pub?"PUBLIC":"PRIVATE"
     try{
       setIsLoading(true)
-      const {data} = await axios.post('/api/campaign', body);
+      const {data} = await axios.put(`/api/campaign/${campaign.id}?q=${campaign.id}`, body);
       if(data.hasOwnProperty('success')){
-        toast.success("Campaign Created")
+        toast.success("Campaign Updated")
+        localStorage.removeItem('campaign')
         router.push(`/campaign/${data.campaign.id}`)
       }
       else{
@@ -62,14 +64,28 @@ function page() {
     }finally{
       setIsLoading(false)
     }
-
   }
+
+  useEffect(()=>{
+    async function getCampaign(){
+        const campaign:any = await JSON.parse(localStorage.getItem('campaign')!)
+        setCampaign(campaign)
+        setValue('name', campaign?.name)
+        setValue('description', campaign?.description)
+        setStartDate(campaign.startDate)
+        setEndDate(campaign.endDate)
+        setType(campaign.type)
+        setValue('feesFrom', campaign.feesFrom)
+        setValue('feesTo', campaign.feesTo)
+    }
+    getCampaign()
+  }, [])
 
   return (
     <div>
       <Card aria-disabled={isLoading} className='w-4/6 m-auto'>
         <CardHeader>
-          <CardTitle className='text-xl text-center'>New Campaign</CardTitle>
+          <CardTitle className='text-xl text-center'>Update Campaign Information</CardTitle>
         </CardHeader>
         <CardContent>
           <div className='flex flex-col gap-3'>
@@ -147,7 +163,7 @@ function page() {
           <Button disabled={isLoading} variant={'outline'} onClick={()=>router.push('/')}>Cancel</Button>
           <Button disabled={isLoading} onClick={handleSubmit(onSubmit)}>
             {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
-            Create
+            Update
           </Button>
         </CardFooter>
       </Card>

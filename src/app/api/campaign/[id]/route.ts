@@ -21,6 +21,24 @@ export async function POST(req: Request){
     }
 }
 
+export async function PUT(req: Request){
+    try{
+        const body = await req.json();
+        var { query } = parse(req.url || '', true);
+        const {q}:any= query
+        const campaign = await prisma.campaign.update({
+            where: {
+                id: q
+            },
+            data: body,
+        })
+        return NextResponse.json({success: true, campaign: campaign})
+    }catch(error){
+        console.log(error)
+        return NextResponse.json({errors: error})
+    }
+}
+
 export async function DELETE(req: Request){
     try{
         var { query } = parse(req.url || '', true);

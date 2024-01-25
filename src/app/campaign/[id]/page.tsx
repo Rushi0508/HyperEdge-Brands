@@ -19,7 +19,6 @@ function page({params}: {params: {id: string}}) {
     const [campaign, setCampaign] = useState<any>(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    // "id": "65af9982141cd0ff801b575e",
     const router = useRouter()
 
     const handleDelete = async()=>{
@@ -35,7 +34,7 @@ function page({params}: {params: {id: string}}) {
     }
     const fetchCampaign = async()=>{
         const {data} = await axios.post(`/api/campaign/${params.id}`, {id: params.id});
-        if(data.hasOwnProperty('success')){
+        if(data.hasOwnProperty('success') && data.campaign){
             setCampaign(data.campaign)
             setDataLoading(false)
         }else{
@@ -82,10 +81,12 @@ function page({params}: {params: {id: string}}) {
         <div className='w-2/6 px-8'>
             <div className='py-4 flex gap-4'>
                 <div className='flex'>
-                    <Button className='flex gap-2' variant={'ghost'}>
-                        <AiOutlineEdit className='w-5 h-5'/>
-                        Edit
-                    </Button>
+                    <Link onClick={()=>localStorage.setItem('campaign', JSON.stringify(campaign))} href={`/campaign/${campaign.id}/update`} >
+                        <Button variant={`ghost`} className='flex gap-2'>
+                            <AiOutlineEdit className='w-5 h-5'/>
+                            Edit
+                        </Button>
+                    </Link>
                 </div>
                 <AlertDialog open={openDeleteDialog}>
                     <AlertDialogTrigger>
