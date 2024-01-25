@@ -21,6 +21,35 @@ function page({params}: {params: {id: string}}) {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
+    function timeAgo(date:any) {
+        const now:any = new Date();
+        const timestamp:any = new Date(date);
+        const seconds = Math.floor((now - timestamp) / 1000);
+      
+        let interval = Math.floor(seconds / 31536000);
+      
+        if (interval > 1) {
+          return `${interval} years ago`;
+        }
+        interval = Math.floor(seconds / 2592000);
+        if (interval > 1) {
+          return `${interval} months ago`;
+        }
+        interval = Math.floor(seconds / 86400);
+        if (interval > 1) {
+          return `${interval} days ago`;
+        }
+        interval = Math.floor(seconds / 3600);
+        if (interval > 1) {
+          return `${interval} hours ago`;
+        }
+        interval = Math.floor(seconds / 60);
+        if (interval > 1) {
+          return `${interval} minutes ago`;
+        }
+        return `${Math.floor(seconds)} seconds ago`;
+    }
+
     const handleDelete = async()=>{
         setIsLoading(true)
         const {data} = await axios.delete(`/api/campaign/${campaign.id}?q=${campaign.id}`)
@@ -49,7 +78,11 @@ function page({params}: {params: {id: string}}) {
   return (
     <div className='px-10 flex'>
         <div className='w-4/6 border-r-[1px] border-gray-300 pr-4'>
-            <p className='text-2xl tracking-wide font-semibold py-4 px-2'>{campaign?.name}</p><hr />
+            <div className='py-4 px-2'>
+                <p className='text-2xl tracking-wide font-semibold'>{campaign?.name}</p>
+                <p className='text-sm text-gray-500 mt-1'>Posted {timeAgo(campaign.createdAt)}</p>
+            </div>
+            <hr />
             <p className='py-6 tracking-wide px-2'>{campaign?.description}</p><hr />
             <div className='py-6 px-2'>
                 <div className='flex gap-8 items-center'>
