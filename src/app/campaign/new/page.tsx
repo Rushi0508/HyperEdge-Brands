@@ -28,7 +28,6 @@ function page() {
   const [endDate, setEndDate] = useState(null)
 
   const onSubmit = async(body:any)=>{
-    setIsLoading(true)
     if(!startDate || !endDate || !type){
       return toast.error('Fill out all details')
     }
@@ -40,7 +39,7 @@ function page() {
     if(isNaN(feesFrom) || isNaN(feesTo)){
       return toast.error('Enter valid fees')
     }
-    if(feesFrom > feesTo){
+    if(parseInt(feesFrom) > parseInt(feesTo)){
       return toast.error('Enter valid fees range')
     }
     body.type = type;
@@ -49,6 +48,7 @@ function page() {
     body.status = "PLANNED";
     body.visibility = pub?"PUBLIC":"PRIVATE"
     try{
+      setIsLoading(true)
       const {data} = await axios.post('/api/campaign', body);
       if(data.hasOwnProperty('success')){
         toast.success("Campaign Created")
