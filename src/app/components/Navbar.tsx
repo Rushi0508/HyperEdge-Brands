@@ -51,8 +51,8 @@ function Navbar() {
                     <NavigationMenuLink className="mt-3">
                       Campaigns
                     </NavigationMenuLink>
-                    <NavigationMenuLink href='/campaign/new' className="mt-3">
-                      Create Campaign
+                    <NavigationMenuLink className="mt-3">
+                      <Link href={'/campaign/new'}>Create Campaign</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink className="my-3">
                       Collaborations

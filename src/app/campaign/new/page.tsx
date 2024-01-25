@@ -123,23 +123,23 @@ function page() {
                 </div>
               </div>
               <div className='w-1/2'>
-                <Label>Type</Label>
+                <Label>Payment Type</Label>
                 <Select onValueChange={(e)=>setType(e)}>
                     <SelectTrigger className='w-full'>
-                        <SelectValue placeholder={`${type? type.slice(4):"Select type" }`}/>
+                        <SelectValue placeholder={`${type? type:"Select type" }`}/>
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="PER_POST">POST</SelectItem>
-                        <SelectItem value="PER_VIDEO">VIDEO</SelectItem>
-                        <SelectItem value="PER_DAY">DAY</SelectItem>
-                        <SelectItem value="PER_HOUR">HOUR</SelectItem>
+                        <SelectItem value="PER_POST">PER POST</SelectItem>
+                        <SelectItem value="PER_VIDEO">PER VIDEO</SelectItem>
+                        <SelectItem value="PER_DAY">PER DAY</SelectItem>
+                        <SelectItem value="PER_HOUR">PER HOUR</SelectItem>
                     </SelectContent>
                 </Select>
               </div>
             </div>
             <div className='flex items-center gap-2'>
               <Label>Public:</Label> 
-              <Switch onChange={()=>setPublic(!pub)} checked={pub}/>
+              <Switch onClick={()=>setPublic(!pub)} checked={pub}/>
             </div>
           </div>
         </CardContent>

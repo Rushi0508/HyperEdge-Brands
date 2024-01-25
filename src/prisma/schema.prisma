@@ -151,8 +151,7 @@ model Campaign {
   endDate         DateTime?
   feesFrom        String?
   feesTo          String?
-  // unit            Unit
-  type            String?
+  type            Unit?
   collaborators   Creator[]          @relation(fields: [collaboratorIds], references: [id])
   collaboratorIds String[]           @db.ObjectId
   status          CampaignStatus
