@@ -161,7 +161,7 @@ function page() {
           </div>
         </CardContent>
         <CardFooter className='flex gap-2 justify-end'>
-          <Button disabled={isLoading} variant={'outline'} onClick={()=>router.push('/')}>Cancel</Button>
+          <Button disabled={isLoading} variant={'outline'} onClick={()=>router.back()}>Cancel</Button>
           <Button disabled={isLoading} onClick={handleSubmit(onSubmit)}>
             {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
             Update

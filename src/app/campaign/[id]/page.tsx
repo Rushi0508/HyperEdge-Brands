@@ -55,7 +55,7 @@ function page({params}: {params: {id: string}}) {
         const {data} = await axios.delete(`/api/campaign/${campaign.id}?q=${campaign.id}`)
         if(data.hasOwnProperty('success')){
             toast.success('Campaign deleted')
-            router.push('/')
+            router.push('/campaign')
         }else{
             return toast.error('Something went wrong.')
         }

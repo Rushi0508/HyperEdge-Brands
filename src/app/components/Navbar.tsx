@@ -49,7 +49,7 @@ function Navbar() {
                   <NavigationMenuTrigger>Campaigns</NavigationMenuTrigger>
                   <NavigationMenuContent className="flex flex-col pl-5 pr-10">
                     <NavigationMenuLink className="mt-3">
-                      Campaigns
+                    <Link href={'/campaign'}>Campaigns</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink className="mt-3">
                       <Link href={'/campaign/new'}>Create Campaign</Link>
