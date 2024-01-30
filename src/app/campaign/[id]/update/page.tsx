@@ -77,6 +77,7 @@ function page() {
         setType(campaign.type)
         setValue('feesFrom', campaign.feesFrom)
         setValue('feesTo', campaign.feesTo)
+        campaign.visibility === 'PUBLIC'? setPublic(true): setPublic(false)
     }
     getCampaign()
   }, [])
