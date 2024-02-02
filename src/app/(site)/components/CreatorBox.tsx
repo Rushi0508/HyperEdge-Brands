@@ -34,14 +34,16 @@ function CreatorBox({creator}:any) {
             </div>
             <div>
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                    <DropdownMenuTrigger>
                         <GoKebabHorizontal className='cursor-pointer' size={22}/>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuItem asChild>
+                        <DropdownMenuItem>
                             <Link href={`/creator/${creator.id}`}>View Profile</Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>Invite</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Invite
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
