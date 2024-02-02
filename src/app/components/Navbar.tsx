@@ -16,6 +16,7 @@ import { BellIcon } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 
 function Navbar() {
   const [profileMenu, setProfileMenu] = useState(false);
@@ -32,11 +33,11 @@ function Navbar() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Find Creators</NavigationMenuTrigger>
-                  <NavigationMenuContent className="flex flex-col pl-5 pr-10">
-                    <NavigationMenuLink className="mt-3">
+                  <NavigationMenuContent className="flex p-1 flex-col">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                       Find Creators
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="my-3">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                       Profile
                     </NavigationMenuLink>
                   </NavigationMenuContent>
@@ -47,14 +48,14 @@ function Navbar() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Campaigns</NavigationMenuTrigger>
-                  <NavigationMenuContent className="flex flex-col pl-5 pr-10">
-                    <NavigationMenuLink className="mt-3">
+                  <NavigationMenuContent className="flex flex-col p-1">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                     <Link href={'/campaign'}>Campaigns</Link>
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="mt-3">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                       <Link href={'/campaign/new'}>Create Campaign</Link>
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="my-3">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                       Collaborations
                     </NavigationMenuLink>
                   </NavigationMenuContent>
@@ -65,14 +66,14 @@ function Navbar() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Overview</NavigationMenuTrigger>
-                  <NavigationMenuContent className="flex flex-col pl-5 pr-10">
-                    <NavigationMenuLink className="mt-3">
+                  <NavigationMenuContent className="flex flex-col p-1">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                       Overview
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="mt-3">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                       My Stats
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="my-3">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                       Transaction History
                     </NavigationMenuLink>
                   </NavigationMenuContent>
