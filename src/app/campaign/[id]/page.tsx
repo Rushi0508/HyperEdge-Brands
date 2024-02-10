@@ -19,6 +19,7 @@ function page({params}: {params: {id: string}}) {
     const [campaign, setCampaign] = useState<any>(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [creatorData, setCreatorData] = useState<any>(null)
     const router = useRouter()
 
     function timeAgo(date:any) {
@@ -61,10 +62,41 @@ function page({params}: {params: {id: string}}) {
         }
         setIsLoading(false)
     }
+
+    const handleRemove = async(creatorId:any)=>{
+        const parent = document.getElementsByClassName(`${creatorId}`)
+        console.log(parent)
+        const reload = parent[0]?.getElementsByClassName('reload-icon')
+        const remove = parent[0]?.getElementsByClassName('remove-icon')
+        console.log(reload)
+        if(reload) reload[0]?.classList.remove('hidden')
+        if(remove) remove[0]?.classList.add('hidden')
+
+        const {data} = await axios.post('/api/collaborator', {campaignId: params.id, creatorId: creatorId})
+        if(data.hasOwnProperty('success')){
+            fetchCampaign();
+            toast.success('Creator removed successfully')
+        }
+    }
+
     const fetchCampaign = async()=>{
         const {data} = await axios.post(`/api/campaign/${params.id}`, {id: params.id});
         if(data.hasOwnProperty('success') && data.campaign){
             setCampaign(data.campaign)
+            console.log(data.campaign)
+            const resultArray = []
+            for (const collaboration of data.campaign.collaborations) {
+                const collaborator = data.campaign.collaborators?.find((c:any) => c.id === collaboration.creatorId);
+                if (collaborator) {
+                  const result = {
+                    creatorId: collaboration.creatorId,
+                    fullName: collaborator.fullName,
+                    status: collaboration.status
+                  };
+                  resultArray.push(result)
+                }
+            }
+            setCreatorData(resultArray)
             setDataLoading(false)
         }else{
             setCampaign("")
@@ -151,19 +183,21 @@ function page({params}: {params: {id: string}}) {
                 <p className='text-lg tracking-wider font-semibold'>Collaborators</p>
                 <div className='flex flex-col gap-1 mt-2'>
                     {
-                        campaign?.collaborators?.length ?
-                        (campaign?.collaborators).map((creator:any)=>(
-                            <div key={creator.id} className='bg-gray-100 py-3 px-4 rounded-lg flex items-center justify-between'>
+                        creatorData?.length ?
+                        (creatorData).map((creator:any)=>(
+                            <div key={creator.creatorId} className={`${creator.creatorId} border-b-[1px] hover:bg-gray-100 py-3 px-4 rounded-lg flex items-center justify-between`}>
                                 <div className='flex items-center gap-4'>
-                                    <Avatar className="w-8 h-8">
+                                    <Avatar  className="w-8 h-8">
                                         <AvatarImage src="https://e7.pngegg.com/pngimages/442/17/png-clipart-computer-icons-user-profile-male-user-heroes-head-thumbnail.png" />
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
                                     <div>
-                                        <Link className='hover:underline' href={`/creator/${creator.id}`}>{creator.fullName}</Link>
+                                        <Link className='hover:underline' href={`/creator/${creator.creatorId}`}>{creator.fullName}</Link>
+                                        <p className='text-xs text-gray-500 italic'>({creator.status})</p>
                                     </div>
                                 </div>
-                                <IoIosRemoveCircleOutline className='cursor-pointer text-red-500 w-6 h-6'/>
+                                <ReloadIcon className="hidden reload-icon mr-2 h-4 w-4 animate-spin"/>
+                                <IoIosRemoveCircleOutline onClick={()=>handleRemove(creator.creatorId)} className='remove-icon cursor-pointer text-red-500 w-6 h-6'/>
                             </div>
                         ))
                         :

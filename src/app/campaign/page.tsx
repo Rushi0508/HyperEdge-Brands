@@ -45,7 +45,7 @@ function page() {
                 campaigns?.map((campaign:any,index:any)=>(
                     <>
                     <div className='hover:bg-gray-50 p-4 rounded-lg'>
-                        <p className='tracking-wide font-semibold'>{campaign.name}</p>
+                        <p className='tracking-wide text-lg font-semibold'>{campaign.name}</p>
                         <p className='text-xs text-gray-400'>Posted on: {format(campaign.createdAt, 'PPP')}</p>
                         <p className='text-sm mt-5'>{campaign.description.substring(0,150)}...</p>
                         <Button asChild className='p-0 h-auto mt-2' variant={"link"}>

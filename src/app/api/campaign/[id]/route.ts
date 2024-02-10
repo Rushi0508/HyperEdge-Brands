@@ -11,7 +11,13 @@ export async function POST(req: Request){
                 id: body.id
             },
             include:{
-                collaborators: true
+                collaborators: {
+                    select: {
+                        fullName: true,
+                        id: true
+                    }
+                },
+                collaborations: true
             }
         })
         return NextResponse.json({success: true, campaign: campaign})

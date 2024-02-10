@@ -11,6 +11,12 @@ export async function POST(req: Request){
         const newCampaign = await prisma?.campaign.create({
             data: body
         })
+        if (newCampaign) {
+            await prisma.brand.update({
+                where: { id: user?.id },
+                data: { campaignIds: { push: newCampaign.id } },
+            });
+        }
         return NextResponse.json({success: true, campaign:newCampaign})
     }catch(error){
         console.log(error)

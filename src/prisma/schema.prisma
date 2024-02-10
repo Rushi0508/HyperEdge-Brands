@@ -49,10 +49,9 @@ model Creator {
   campaignInvites   Campaign[]      @relation(fields: [campaignInviteIds], references: [id])
   proposalIds       String[]        @db.ObjectId
   proposals         Proposal[]
-  collborations     Collaboration[]
-  collborationIds   String[]        @db.ObjectId
   Testimonial       Testimonial[]
   Portfolio         Portfolio[]
+  Collaboration     Collaboration[]
 }
 
 model SocialLinks {
