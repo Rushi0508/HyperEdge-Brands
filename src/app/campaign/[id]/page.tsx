@@ -57,7 +57,7 @@ function page({params}: {params: {id: string}}) {
             setCampaign(data.campaign)
             console.log(data.campaign)
             const resultArray = []
-            for (const collaboration of data.campaign.collaborations) {
+            for (const collaboration of data.campaign.Collaboration) {
                 const collaborator = data.campaign.collaborators?.find((c:any) => c.id === collaboration.creatorId);
                 if (collaborator) {
                   const result = {

@@ -17,8 +17,7 @@ export async function POST(req: Request){
                         id: true
                     }
                 },
-                // @ts-ignore
-                collaborations: true
+                Collaboration: true
             }
         })
         return NextResponse.json({success: true, campaign: campaign})
