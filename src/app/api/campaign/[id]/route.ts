@@ -17,6 +17,7 @@ export async function POST(req: Request){
                         id: true
                     }
                 },
+                // @ts-ignore
                 collaborations: true
             }
         })
