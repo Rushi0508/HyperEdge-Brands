@@ -50,13 +50,13 @@ function Navbar() {
                   <NavigationMenuTrigger>Campaigns</NavigationMenuTrigger>
                   <NavigationMenuContent className="flex flex-col p-1">
                     <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
-                    <Link href={'/campaign'}>Campaigns</Link>
+                      <Link href={'/campaign'}>Campaigns</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
                       <Link href={'/campaign/new'}>Create Campaign</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
-                      Collaborations
+                      <Link href={'/collaborations'}>Collaborations</Link>
                     </NavigationMenuLink>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
