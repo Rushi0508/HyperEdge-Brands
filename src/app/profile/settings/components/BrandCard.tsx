@@ -127,6 +127,9 @@ function BrandCard({setVisible,user,setProgress}:any) {
                 <Input disabled={isLoading} id='name' {...register('name', {
                     required: true
                 })}/>
+                {errors.name && errors.name.type === "required" && (
+                  <p className="mt-1 mb-0 text-red-600 text-sm">Name is required.</p>
+                )}
                 </div>
                 <div className='w-full'>
                 <Label htmlFor='industry'>Industry(Sector)</Label>
