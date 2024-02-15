@@ -15,7 +15,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Loading from './loading'
-  
 
 function page() {
     const [collaborations, setCollaborations] = useState<any>(null)
@@ -44,7 +43,9 @@ function page() {
                         <div>
                             <p className='mt-2 font-semibold text-center tracking-wider'>{collaboration.creator.fullName}</p>
                             <div className="flex">
-                                <Button variant={'link'} className='px-2'>View Profile</Button>
+                                <Button variant={'link'} className='px-2' asChild>
+                                    <Link href={`/creator/${collaboration.creatorId}`}>View Profile</Link>
+                                </Button>
                                 <Button variant={'link'} className='px-2' asChild>
                                     <Link href={`/campaign/${collaboration.campaignId}`}>View Campaign</Link>
                                 </Button>
