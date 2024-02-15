@@ -14,6 +14,7 @@ import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Loading from './loading'
   
 
 function page() {
@@ -25,7 +26,7 @@ function page() {
     useEffect(()=>{
         fetchCollaborations()
     }, [])
-    if(collaborations==null) return <div>Loading</div>
+    if(!collaborations) return <Loading/>
   return (
     <div className='grid grid-cols-4 gap-4'>
         {
