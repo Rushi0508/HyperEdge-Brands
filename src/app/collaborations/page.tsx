@@ -31,14 +31,14 @@ function page() {
         {
             collaborations?.map((collaboration:any)=>(
                 <>
-                <Card key={collaboration.id} className=''>
+                <Card key={collaboration.id}>
                     <CardHeader>
                         <CardTitle>{collaboration.campaign.name}</CardTitle>
                         <CardDescription>{timeAgo(collaboration.createdAt)}</CardDescription>
                     </CardHeader>
                     <CardContent className='flex flex-col items-center'>
                         <div>
-                            <Image  alt='profile' width={150} height={150} className="rounded-full" src={collaboration.creator.avatar} />
+                            <Image  alt='profile' width={0} height={0} sizes='100vw' style={{overflowClipMargin: "unset"}} className="w-[150px] h-[150px] object-cover rounded-full" src={collaboration.creator.avatar} />
                         </div>
                         <div>
                             <p className='mt-2 font-semibold text-center tracking-wider'>{collaboration.creator.fullName}</p>
