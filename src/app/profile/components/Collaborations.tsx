@@ -14,7 +14,7 @@ function Collaborations({user}:any) {
                         <Link href={'/collaborations'}>View all</Link>
                     </Button>
                 </p>
-                {user?.collaborations?
+                {user?.collaborations && user?.collaborations.length>0?
                     <>
                     <Carousel className='mt-3 whitespace-nowrap mx-4'>  
                         {user.collaborations.map((c:any,index:any)=>(

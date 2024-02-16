@@ -12,6 +12,9 @@ export async function POST(req: Request){
             },
             include: {
                 collaborations: {
+                    where: {
+                        status: "APPROVED"
+                    },
                     include: {
                         brand: {
                             select:{

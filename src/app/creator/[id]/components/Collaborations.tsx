@@ -11,7 +11,7 @@ function Collaborations({user}:any) {
                 <p className='text-xl flex items-baseline gap-2 font-semibold'>
                     Collaborations
                 </p>
-                {user?.collaborations?
+                {user?.collaborations && user?.collaborations.length>0?
                     <>
                     <Carousel className='mt-3 whitespace-nowrap mx-4'>  
                         {user.collaborations.map((c:any,index:any)=>(
