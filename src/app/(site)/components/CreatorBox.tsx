@@ -16,7 +16,7 @@ function CreatorBox({creator}:any) {
             <div className='flex items-center gap-20'>
                 <div>
                     <Avatar className="w-14 h-14">
-                        <AvatarImage src="https://e7.pngegg.com/pngimages/442/17/png-clipart-computer-icons-user-profile-male-user-heroes-head-thumbnail.png" />
+                        <AvatarImage className='object-cover overflow-visible' src={creator.avatar} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                 </div>
