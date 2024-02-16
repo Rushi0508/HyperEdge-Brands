@@ -7,7 +7,7 @@ function Header({user}:any) {
     <div className='border-b-[1px] border-gray-300 p-5 flex justify-between'>
     <div className="flex gap-4 items-center">
         <Avatar className="w-20 h-20">
-          <AvatarImage src={user?.avatar} />
+          <AvatarImage className='object-cover overflow-visible' src={user?.avatar} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div>

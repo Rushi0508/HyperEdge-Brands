@@ -9,6 +9,25 @@ export async function POST(req: Request){
         const creator = await prisma.creator.findUnique({
             where: {
                 id: body.id
+            },
+            include: {
+                collaborations: {
+                    include: {
+                        brand: {
+                            select:{
+                                id: true,
+                                name: true,
+                                logo: true
+                            }
+                        },
+                        campaign: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                }
             }
         })
         return NextResponse.json({success: true, creator: creator})
