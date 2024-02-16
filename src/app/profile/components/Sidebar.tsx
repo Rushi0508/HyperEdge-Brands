@@ -10,10 +10,10 @@ function Sidebar({user}:any) {
             <p><span className='font-semibold'>City:</span> <span className='text-gray-500'>{user?.city}</span></p>
         </div>
         <div className='mt-2'>
-            <p><span className='font-semibold'>Website:</span> <span className='text-blue-500 cursor-pointer hover:underline'><a target='_blank' href={'https://'+user.website}>{user?.website}</a></span></p>
+            <p><span className='font-semibold'>Website:</span> <span className='text-blue-500 cursor-pointer hover:underline'><a target='_blank' href={'https://'+user?.website}>{user?.website}</a></span></p>
         </div>
         <div className='mt-2'>
-            <p><span className='font-semibold'>Industry:</span> <span className='text-gray-500'>{user.industry}</span></p>
+            <p><span className='font-semibold'>Industry:</span> <span className='text-gray-500'>{user?.industry}</span></p>
         </div>
         <div className='mt-2'>
           <p className='text-lg font-semibold'>Representative Details:</p>
