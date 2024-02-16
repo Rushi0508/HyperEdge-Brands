@@ -27,8 +27,10 @@ function Collaborations({user}:any) {
                                             <AvatarFallback>CN</AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <CardTitle>{c.campaign.name.length>30?c.campaign.name.substring(0,30)+'...':c.campaign.name}</CardTitle>
-                                            <CardDescription>by {c.creator.fullName}</CardDescription>
+                                            <CardTitle>
+                                                <Link className='hover:underline' href={`/campaign/${c.campaign.id}`}>{c.campaign.name.length>30?c.campaign.name.substring(0,30)+'...':c.campaign.name}</Link>
+                                            </CardTitle>
+                                            <CardDescription>by <Link className='hover:underline' href={`/creator/${c.creator.id}`}>{c.creator.fullName}</Link></CardDescription>
                                         </div>
                                     </CardHeader>
                                 </Card>
