@@ -34,11 +34,11 @@ function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Find Creators</NavigationMenuTrigger>
                   <NavigationMenuContent className="flex p-1 flex-col">
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
-                      Find Creators
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
+                      <Link href={'/'}>Find Creators</Link>
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
-                      Profile
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
+                      <Link href={'/profile'}>Profile</Link>
                     </NavigationMenuLink>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -49,13 +49,13 @@ function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Campaigns</NavigationMenuTrigger>
                   <NavigationMenuContent className="flex flex-col p-1">
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
                       <Link href={'/campaign'}>Campaigns</Link>
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
                       <Link href={'/campaign/new'}>Create Campaign</Link>
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
                       <Link href={'/collaborations'}>Collaborations</Link>
                     </NavigationMenuLink>
                   </NavigationMenuContent>
@@ -67,13 +67,13 @@ function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Overview</NavigationMenuTrigger>
                   <NavigationMenuContent className="flex flex-col p-1">
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
                       Overview
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
                       My Stats
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100">
+                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
                       Transaction History
                     </NavigationMenuLink>
                   </NavigationMenuContent>
@@ -113,15 +113,14 @@ function Navbar() {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div
-                className={`${
-                  profileMenu ? "visible" : "hidden"
-                } pl-5 pr-10 absolute right-0 top-10 border-2 border-gray-200 bg-white rounded-md`}
+                className={`${profileMenu ? "visible" : "hidden"
+                  } pl-5 pr-10 absolute right-0 top-10 border-2 border-gray-200 bg-white rounded-md`}
               >
                 <ul className="whitespace-nowrap text-left ">
                   <Link href={"/profile"}>
                     <li className="mt-3 hover:text-purple-500">Profile</li>
                   </Link>
-                  <li onClick={async()=>{await signOut({redirect: false});router.push('/login')}} className="my-3 hover:text-purple-500">Logout</li>
+                  <li onClick={async () => { await signOut({ redirect: false }); router.push('/login') }} className="my-3 hover:text-purple-500">Logout</li>
                 </ul>
               </div>
             </div>
