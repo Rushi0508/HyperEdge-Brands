@@ -33,6 +33,23 @@ export async function POST(req: Request){
                 id: collaboration?.id
             }
         })
+        const creator = await prisma.creator.findUnique({
+            where:{
+                id: creatorId
+            }
+        })
+        if (creator && creator.campaignInviteIds.includes(campaignId)) {
+            const updatedUser = await prisma.creator.update({
+              where: {
+                id: creatorId,
+              },
+              data: {
+                campaignInviteIds: {
+                  set: creator.campaignInviteIds.filter(id => id !== campaignId),
+                },
+              },
+            });
+        }
         return NextResponse.json({success: true})
     }catch(error){
         console.log(error)
@@ -46,7 +63,8 @@ export async function GET(req: Request){
         const user = await getCurrentUser();
         const collaborations = await prisma.collaboration.findMany({
             where:{
-                brandId: user?.id
+                brandId: user?.id,
+                status: "APPROVED"
             },
             include:{
                 creator: {

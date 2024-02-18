@@ -153,6 +153,7 @@ model Campaign {
   feesFrom        String?
   feesTo          String?
   type            Unit?
+  targetCategory  String[]
   collaborators   Creator[]          @relation(fields: [collaboratorIds], references: [id])
   collaboratorIds String[]           @db.ObjectId
   status          CampaignStatus
