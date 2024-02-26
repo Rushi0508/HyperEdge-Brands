@@ -50,8 +50,8 @@ model Creator {
   campaignInvites   Campaign[]      @relation(fields: [campaignInviteIds], references: [id])
   proposalIds       String[]        @db.ObjectId
   proposals         Proposal[]
-  collborations     Collaboration[]
-  collborationIds   String[]        @db.ObjectId
+  collaborations    Collaboration[]
+  collaborationIds  String[]        @db.ObjectId
   Testimonial       Testimonial[]
   Portfolio         Portfolio[]
 }
@@ -153,6 +153,7 @@ model Campaign {
   feesFrom        String?
   feesTo          String?
   type            Unit?
+  targetCategory  String[]
   collaborators   Creator[]          @relation(fields: [collaboratorIds], references: [id])
   collaboratorIds String[]           @db.ObjectId
   status          CampaignStatus

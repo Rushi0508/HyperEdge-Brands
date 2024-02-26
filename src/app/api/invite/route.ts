@@ -7,8 +7,19 @@ export async function POST(req: Request){
         const body = await req.json();
         const user = await getCurrentUser();
         const campaignIds = body.campaignIds;
+
         campaignIds.forEach(async(campaignId:any,index:any) => {
             try{
+                const findCollaboration = await prisma.collaboration.findFirst({
+                    where: {
+                        creatorId: body.creatorId,
+                        brandId: user?.id,
+                        campaignId: campaignId
+                    }
+                })
+                if(findCollaboration) {
+                    return NextResponse.json({message: "Creator already added in the campaign"});
+                }
                 const collaboration = await prisma.collaboration.create({
                     // @ts-ignore
                     data: {
@@ -26,6 +37,16 @@ export async function POST(req: Request){
                         collaboratorIds:{
                             push: body.creatorId
                         }
+                    }
+                })
+                await prisma.creator.update({
+                    where:{
+                        id: body.creatorId
+                    },
+                    data: {
+                        campaignInviteIds: {
+                            push: campaignId
+                        } 
                     }
                 })
             }catch(error){

@@ -55,7 +55,11 @@ export default function InviteModel({creatorId,setOpenInvite}:any) {
             })
             if(data.hasOwnProperty('success')){
                 toast.success("Creator invited")
-            }else{
+            }
+            else if(data.hasOwnProperty('message')){
+                toast.error(data.message)
+            }
+            else{
                 toast.error("Cannot invite")
             }
             setOpenInvite(false)

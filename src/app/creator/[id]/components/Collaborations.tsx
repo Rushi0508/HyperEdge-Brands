@@ -10,9 +10,6 @@ function Collaborations({user}:any) {
             <div>
                 <p className='text-xl flex items-baseline gap-2 font-semibold'>
                     Collaborations
-                    <Button className='py-0 px-1' variant={"link"} asChild>
-                        <Link href={'/collaborations'}>View all</Link>
-                    </Button>
                 </p>
                 {user?.collaborations && user?.collaborations.length>0?
                     <>
@@ -23,14 +20,14 @@ function Collaborations({user}:any) {
                                 <Card>
                                     <CardHeader className='flex gap-4 flex-row'>
                                         <Avatar className="w-16 h-16">
-                                            <AvatarImage src={c.creator.avatar} className='object-cover overflow-visible'/>
+                                            <AvatarImage src={c.brand.logo} className='object-cover overflow-visible'/>
                                             <AvatarFallback>CN</AvatarFallback>
                                         </Avatar>
                                         <div>
                                             <CardTitle>
-                                                <Link className='hover:underline' href={`/campaign/${c.campaign.id}`}>{c.campaign.name.length>30?c.campaign.name.substring(0,30)+'...':c.campaign.name}</Link>
+                                                {c.campaign.name.length>30?c.campaign.name.substring(0,30)+'...':c.campaign.name}
                                             </CardTitle>
-                                            <CardDescription>by <Link className='hover:underline' href={`/creator/${c.creator.id}`}>{c.creator.fullName}</Link></CardDescription>
+                                            <CardDescription>for <Link className='hover:underline' href={`/brand/${c.brand.id}`}>{c.brand.name}</Link></CardDescription>
                                         </div>
                                     </CardHeader>
                                 </Card>

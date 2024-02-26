@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar";
 import axios from "axios";
 import TitleBio from "./components/TitleBio";
 import Collaborations from "./components/Collaborations";
+import Loading from "./loading";
 
 function page() {
   const [dataLoading, setDataLoading] = useState(true)
@@ -17,11 +18,11 @@ function page() {
     })();
   }, [])
   const [user, setUser] = useState(null)
-  if(dataLoading) return <div>Loading</div>
+  if(dataLoading) return <Loading/>
   return (
     <>
     <div className="border-[1px] border-gray-300 rounded-2xl">
-      <Header user={user}/>
+      <Header user={user} setUser={setUser}/>
       <div className="flex">
         <div className="w-[30%] border-r-[1px] border-gray-300">
           <Sidebar user={user}/>

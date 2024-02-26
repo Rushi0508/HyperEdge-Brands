@@ -10,7 +10,6 @@ export async function POST(req: Request){
                 swr: 500,
             }
         });
-        console.log(creators)
         return NextResponse.json({success: true, creators:creators})
     }catch(error){
         console.log(error)
