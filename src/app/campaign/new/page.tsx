@@ -36,7 +36,7 @@ function page() {
       return toast.error('Fill out all details')
     }
     if ((startDate > endDate) || (startDate < Date.now()) || (endDate < Date.now())) {
-      return toast.error('Sel valid date range')
+      return toast.error('Select valid date range')
     }
     let feesFrom = body.feesFrom;
     let feesTo = body.feesTo;

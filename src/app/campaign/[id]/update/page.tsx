@@ -1,10 +1,11 @@
 "use client"
+import { getAllCategories } from '@/app/actions/getAllCategories';
 import { DatePicker } from '@/app/components/DatePicker';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select as Sel, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { ReloadIcon } from '@radix-ui/react-icons';
@@ -13,10 +14,11 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast';
+import Select from 'react-select'
 
 function page() {
   const {
-    register,setValue, handleSubmit, formState: {errors}
+    register, setValue, handleSubmit, formState: { errors }
   } = useForm();
 
   const router = useRouter()
@@ -27,60 +29,75 @@ function page() {
   const [pub, setPublic] = useState(false)
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
+  let [category, setCategory] = useState<any>([]);
+  const [categoryOptions, setCategoryOptions] = useState<any>(null)
 
-  const onSubmit = async(body:any)=>{
-    if(!startDate || !endDate || !type){
+  const onSubmit = async (body: any) => {
+    if (!startDate || !endDate || !type) {
       return toast.error('Fill out all details')
     }
-    if((startDate > endDate) || (startDate < Date.now()) || (endDate < Date.now())){
+    if ((startDate > endDate) || (startDate < Date.now()) || (endDate < Date.now())) {
       return toast.error('Select valid date range')
     }
     let feesFrom = body.feesFrom;
     let feesTo = body.feesTo;
-    if(isNaN(feesFrom) || isNaN(feesTo)){
+    if (isNaN(feesFrom) || isNaN(feesTo)) {
       return toast.error('Enter valid fees')
     }
-    if(parseInt(feesFrom) > parseInt(feesTo)){
+    if (parseInt(feesFrom) > parseInt(feesTo)) {
       return toast.error('Enter valid fees range')
     }
     body.type = type;
     body.startDate = startDate;
     body.endDate = endDate;
     body.status = "PLANNED";
-    body.visibility = pub?"PUBLIC":"PRIVATE"
-    try{
+    body.visibility = pub ? "PUBLIC" : "PRIVATE"
+    if (category) category = category?.map((obj: any) => obj.label)
+    body.targetCategory = category
+    try {
       setIsLoading(true)
-      const {data} = await axios.put(`/api/campaign/${campaign.id}?q=${campaign.id}`, body);
-      if(data.hasOwnProperty('success')){
+      const { data } = await axios.put(`/api/campaign/${campaign.id}?q=${campaign.id}`, body);
+      if (data.hasOwnProperty('success')) {
         toast.success("Campaign Updated")
         localStorage.removeItem('campaign')
         router.push(`/campaign/${data.campaign.id}`)
       }
-      else{
+      else {
         return toast.error("Something went wrong. Try Again")
       }
-    }catch(error){
+    } catch (error) {
       return toast.error("Something went wrong. Try Again")
-    }finally{
+    } finally {
       setIsLoading(false)
     }
   }
 
-  useEffect(()=>{
-    async function getCampaign(){
-        const campaign:any = await JSON.parse(localStorage.getItem('campaign')!)
-        setCampaign(campaign)
-        setValue('name', campaign?.name)
-        setValue('description', campaign?.description)
-        setStartDate(campaign.startDate)
-        setEndDate(campaign.endDate)
-        setType(campaign.type)
-        setValue('feesFrom', campaign.feesFrom)
-        setValue('feesTo', campaign.feesTo)
-        campaign.visibility === 'PUBLIC'? setPublic(true): setPublic(false)
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setCategoryOptions(await getAllCategories())
     }
+    async function getCampaign() {
+      const campaign: any = await JSON.parse(localStorage.getItem('campaign')!)
+      setCampaign(campaign)
+      setValue('name', campaign?.name)
+      setValue('description', campaign?.description)
+      setStartDate(campaign.startDate)
+      setEndDate(campaign.endDate)
+      setCategory(campaign.targetCategory.map((c: any) => ({ value: c, label: c })))
+      setType(campaign.type)
+      setValue('feesFrom', campaign.feesFrom)
+      setValue('feesTo', campaign.feesTo)
+      campaign.visibility === 'PUBLIC' ? setPublic(true) : setPublic(false)
+    }
+    fetchData()
     getCampaign()
   }, [])
+
+  const handleCategoryChange = async (selectedOptions: any) => {
+    setCategory(selectedOptions)
+  }
 
   return (
     <div>
@@ -93,8 +110,8 @@ function page() {
             <div>
               <Label htmlFor='name'>Name</Label>
               <Input disabled={isLoading} id='name' {...register('name', {
-                required:true
-              })}/>
+                required: true
+              })} />
               {errors.name && errors.name.type === "required" && (
                 <p className="mt-1 mb-0 text-red-600 text-sm">Name is required.</p>
               )}
@@ -105,7 +122,7 @@ function page() {
                 required: true,
                 minLength: 100,
                 maxLength: 1000
-              })}/>
+              })} />
               {errors.description && errors.description.type === "required" && (
                 <p className="mt-1 mb-0 text-red-600 text-sm">Description is required.</p>
               )}
@@ -119,12 +136,16 @@ function page() {
             <div className='flex gap-2'>
               <div className='w-full'>
                 <Label>Start Date</Label><br />
-                <DatePicker disabled={isLoading} date={startDate} setDate={setStartDate}/>
+                <DatePicker disabled={isLoading} date={startDate} setDate={setStartDate} />
               </div>
               <div className='w-full'>
                 <Label>End Date</Label><br />
-                <DatePicker disabled={isLoading} date={endDate} setDate={setEndDate}/>
+                <DatePicker disabled={isLoading} date={endDate} setDate={setEndDate} />
               </div>
+            </div>
+            <div>
+              <Label htmlFor='category'>Target Category</Label>
+              <Select value={category} isDisabled={isLoading} options={categoryOptions} isLoading={categoryOptions ? false : true} onChange={handleCategoryChange} isMulti isSearchable />
             </div>
             <div className='flex gap-2'>
               <div className='w-1/2'>
@@ -132,38 +153,38 @@ function page() {
                 <div className='flex items-center gap-2'>
                   <Input disabled={isLoading} id='fees' {...register('feesFrom', {
                     required: true,
-                  })} /> 
-                  - 
+                  })} />
+                  -
                   <Input disabled={isLoading} {...register('feesTo', {
                     required: true,
-                  })} /> 
+                  })} />
                 </div>
               </div>
               <div className='w-1/2'>
                 <Label>Payment Type</Label>
-                <Select disabled={isLoading} onValueChange={(e)=>setType(e)}>
-                    <SelectTrigger className='w-full'>
-                        <SelectValue placeholder={`${type? type:"Select type" }`}/>
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="PER_POST">PER POST</SelectItem>
-                        <SelectItem value="PER_VIDEO">PER VIDEO</SelectItem>
-                        <SelectItem value="PER_DAY">PER DAY</SelectItem>
-                        <SelectItem value="PER_HOUR">PER HOUR</SelectItem>
-                    </SelectContent>
-                </Select>
+                <Sel disabled={isLoading} onValueChange={(e) => setType(e)}>
+                  <SelectTrigger className='w-full'>
+                    <SelectValue placeholder={`${type ? type : "Select type"}`} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="PER_POST">PER POST</SelectItem>
+                    <SelectItem value="PER_VIDEO">PER VIDEO</SelectItem>
+                    <SelectItem value="PER_DAY">PER DAY</SelectItem>
+                    <SelectItem value="PER_HOUR">PER HOUR</SelectItem>
+                  </SelectContent>
+                </Sel>
               </div>
             </div>
             <div className='flex items-center gap-2'>
-              <Label>Public:</Label> 
-              <Switch disabled={isLoading} onClick={()=>setPublic(!pub)} checked={pub}/>
+              <Label>Public:</Label>
+              <Switch disabled={isLoading} onClick={() => setPublic(!pub)} checked={pub} />
             </div>
           </div>
         </CardContent>
         <CardFooter className='flex gap-2 justify-end'>
-          <Button disabled={isLoading} variant={'outline'} onClick={()=>router.back()}>Cancel</Button>
+          <Button disabled={isLoading} variant={'outline'} onClick={() => router.back()}>Cancel</Button>
           <Button disabled={isLoading} onClick={handleSubmit(onSubmit)}>
-            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>}
+            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             Update
           </Button>
         </CardFooter>
