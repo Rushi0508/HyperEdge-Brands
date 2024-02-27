@@ -1,6 +1,7 @@
 "use client"
 import { getAllCategories } from '@/app/actions/getAllCategories';
 import { DatePicker } from '@/app/components/DatePicker';
+import NotFound from '@/app/not-found';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -24,6 +25,7 @@ function page() {
   const router = useRouter()
 
   const [campaign, setCampaign] = useState<any>(null)
+  const [pageLoading, setPageLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false)
   const [type, setType] = useState("")
   const [pub, setPublic] = useState(false)
@@ -84,14 +86,15 @@ function page() {
       setCampaign(campaign)
       setValue('name', campaign?.name)
       setValue('description', campaign?.description)
-      setStartDate(campaign.startDate)
-      setEndDate(campaign.endDate)
-      setCategory(campaign.targetCategory.map((c: any) => ({ value: c, label: c })))
-      setType(campaign.type)
-      setStatus(campaign.status)
-      setValue('feesFrom', campaign.feesFrom)
-      setValue('feesTo', campaign.feesTo)
-      campaign.visibility === 'PUBLIC' ? setPublic(true) : setPublic(false)
+      setStartDate(campaign?.startDate)
+      setEndDate(campaign?.endDate)
+      setCategory(campaign?.targetCategory.map((c: any) => ({ value: c, label: c })))
+      setType(campaign?.type)
+      setStatus(campaign?.status)
+      setValue('feesFrom', campaign?.feesFrom)
+      setValue('feesTo', campaign?.feesTo)
+      campaign?.visibility === 'PUBLIC' ? setPublic(true) : setPublic(false)
+      setPageLoading(false)
     }
     fetchData()
     getCampaign()
@@ -100,6 +103,8 @@ function page() {
   const handleCategoryChange = async (selectedOptions: any) => {
     setCategory(selectedOptions)
   }
+
+  if (!pageLoading && !campaign) return <NotFound />
 
   return (
     <div>

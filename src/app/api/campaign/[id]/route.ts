@@ -6,9 +6,11 @@ import { parse } from "url";
 export async function POST(req: Request){
     try{
         const body = await req.json();
+        const user = await getCurrentUser();
         const campaign = await prisma.campaign.findUnique({
             where: {
-                id: body.id
+                id: body.id,
+                brandId: user?.id
             },
             include:{
                 collaborators: {
