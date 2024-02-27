@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { timeAgo } from '@/app/actions/timeAgo'
 import { MdOutlineCategory } from 'react-icons/md'
+import ProposalSheet from './ProposalSheet'
 
 function page({ params }: { params: { id: string } }) {
     const [dataLoading, setDataLoading] = useState(true)
@@ -22,6 +23,7 @@ function page({ params }: { params: { id: string } }) {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [creatorData, setCreatorData] = useState<any>(null)
+    const [sheetOpen, setSheetOpen] = useState(false)
     const router = useRouter()
 
     const handleDelete = async () => {
@@ -191,7 +193,11 @@ function page({ params }: { params: { id: string } }) {
 
                     </div>
                 </div>
+                <div>
+                    <Button onClick={() => setSheetOpen(true)} size={"sm"}>View Proposals</Button>
+                </div>
             </div>
+            <ProposalSheet campaign={campaign} setSheetOpen={setSheetOpen} sheetOpen={sheetOpen} />
         </div>
     )
 }
