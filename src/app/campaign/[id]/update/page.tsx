@@ -31,9 +31,10 @@ function page() {
   const [endDate, setEndDate] = useState(null)
   let [category, setCategory] = useState<any>([]);
   const [categoryOptions, setCategoryOptions] = useState<any>(null)
+  const [status, setStatus] = useState("")
 
   const onSubmit = async (body: any) => {
-    if (!startDate || !endDate || !type) {
+    if (!startDate || !endDate || !type || !status) {
       return toast.error('Fill out all details')
     }
     if ((startDate > endDate) || (startDate < Date.now()) || (endDate < Date.now())) {
@@ -50,7 +51,7 @@ function page() {
     body.type = type;
     body.startDate = startDate;
     body.endDate = endDate;
-    body.status = "PLANNED";
+    body.status = status;
     body.visibility = pub ? "PUBLIC" : "PRIVATE"
     if (category) category = category?.map((obj: any) => obj.label)
     body.targetCategory = category
@@ -87,6 +88,7 @@ function page() {
       setEndDate(campaign.endDate)
       setCategory(campaign.targetCategory.map((c: any) => ({ value: c, label: c })))
       setType(campaign.type)
+      setStatus(campaign.status)
       setValue('feesFrom', campaign.feesFrom)
       setValue('feesTo', campaign.feesTo)
       campaign.visibility === 'PUBLIC' ? setPublic(true) : setPublic(false)
@@ -106,7 +108,7 @@ function page() {
           <CardTitle className='text-xl text-center'>Update Campaign Information</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className='flex flex-col gap-3'>
+          <div className='flex flex-col gap-4'>
             <div>
               <Label htmlFor='name'>Name</Label>
               <Input disabled={isLoading} id='name' {...register('name', {
@@ -174,6 +176,19 @@ function page() {
                   </SelectContent>
                 </Sel>
               </div>
+            </div>
+            <div>
+              <Label>Campaign Status</Label>
+              <Sel disabled={isLoading} onValueChange={(e) => setStatus(e)}>
+                <SelectTrigger className='w-full'>
+                  <SelectValue placeholder={`${status ? status : "Select Status"}`} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="PLANNED">PLANNED</SelectItem>
+                  <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+                  <SelectItem value="COMPLETED">COMPLETED</SelectItem>
+                </SelectContent>
+              </Sel>
             </div>
             <div className='flex items-center gap-2'>
               <Label>Public:</Label>
