@@ -69,13 +69,13 @@ function Navbar() {
                   <NavigationMenuTrigger>Overview</NavigationMenuTrigger>
                   <NavigationMenuContent className="flex flex-col p-1">
                     <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
-                      Overview
+                      <Link href={'/overview'}>Overview</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
-                      My Stats
+                      <Link href={'/my-stats'}>My Stats</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
-                      Transaction History
+                      <Link href={'/th'}>Transaction History</Link>
                     </NavigationMenuLink>
                   </NavigationMenuContent>
                 </NavigationMenuItem>

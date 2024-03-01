@@ -4,7 +4,7 @@ import './globals.css'
 import ToastContext from './context/ToastContext'
 import AuthContext from './context/Authcontext'
 
-const poppins = Poppins({ subsets: ['latin'], weight: "400", display: "swap" })
+const poppins = Poppins({ subsets: ['latin-ext'], weight: "400", display: "swap" })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <AuthContext>
-          <ToastContext/>
+          <ToastContext />
           {children}
         </AuthContext>
       </body>
