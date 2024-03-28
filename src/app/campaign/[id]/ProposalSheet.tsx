@@ -92,7 +92,7 @@ function ProposalSheet({ campaign, setCampaign, setSheetOpen, sheetOpen }: any) 
                                                             <div className="flex items-center gap-4">
                                                                 <Avatar>
                                                                     <AvatarImage className="object-cover overflow-visible" src={proposal.creator.avatar} />
-                                                                    <AvatarFallback>R</AvatarFallback>
+                                                                    <AvatarFallback>{proposal.creator.fullName.substring(0, 1)}</AvatarFallback>
                                                                 </Avatar>
                                                                 <div>
                                                                     <Link href={`/creator/${proposal.creator.id}`} className='text-lg'>{proposal.creator.fullName}</Link>

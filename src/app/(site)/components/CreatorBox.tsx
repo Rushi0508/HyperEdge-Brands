@@ -16,8 +16,8 @@ function CreatorBox({ creator }: any) {
                 <div className='w-[35%] flex items-center gap-10'>
                     <div>
                         <Avatar className="w-14 h-14">
-                            <AvatarImage className='object-cover overflow-visible' src={creator.avatar} />
-                            <AvatarFallback>CN</AvatarFallback>
+                            <AvatarImage className='object-cover overflow-visible' src={creator?.avatar} />
+                            <AvatarFallback>{creator.fullName.substring(0, 1)}</AvatarFallback>
                         </Avatar>
                     </div>
                     <div>

@@ -66,6 +66,7 @@ function page({ params }: { params: { id: string } }) {
                     const result = {
                         creatorId: collaboration.creatorId,
                         fullName: collaborator.fullName,
+                        avatar: collaborator.avatar,
                         status: collaboration.status
                     };
                     resultArray.push(result)
@@ -175,8 +176,8 @@ function page({ params }: { params: { id: string } }) {
                                     <div key={creator.creatorId} className={`${creator.creatorId} border-b-[1px] hover:bg-gray-100 py-3 px-4 rounded-lg flex items-center justify-between`}>
                                         <div className='flex items-center gap-4'>
                                             <Avatar className="w-8 h-8">
-                                                <AvatarImage src="https://e7.pngegg.com/pngimages/442/17/png-clipart-computer-icons-user-profile-male-user-heroes-head-thumbnail.png" />
-                                                <AvatarFallback>CN</AvatarFallback>
+                                                <AvatarImage className='object-cover overflow-visible' src={creator?.avatar} />
+                                                <AvatarFallback>{creator.fullName.substring(0, 1)}</AvatarFallback>
                                             </Avatar>
                                             <div>
                                                 <Link className='hover:underline' href={`/creator/${creator.creatorId}`}>{creator.fullName}</Link>

@@ -8,7 +8,7 @@ function Header({ user }: any) {
       <div className="flex gap-4 items-center">
         <Avatar className="w-20 h-20">
           <AvatarImage className='object-cover overflow-visible' src={user?.avatar} />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>{user?.fullName.substring(0, 1)}</AvatarFallback>
         </Avatar>
         <div>
           <p className="font-semibold text-3xl flex items-center gap-2">{user?.fullName} <span className='text-sm bg-black text-white rounded-sm py-1 px-2'>{user?.ratings}⭐</span></p>
