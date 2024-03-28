@@ -62,18 +62,13 @@ function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Overview</NavigationMenuTrigger>
-                  <NavigationMenuContent className="flex flex-col p-1">
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
-                      <Link href={'/overview'}>Overview</Link>
+                  <Link href={"/transactions"} legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Transactions
                     </NavigationMenuLink>
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
-                      <Link href={'/my-stats'}>My Stats</Link>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink className="cursor-pointer py-2 pl-5 pr-10 rounded-lg hover:bg-slate-100" asChild>
-                      <Link href={'/th'}>Transaction History</Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuContent>
+                  </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
