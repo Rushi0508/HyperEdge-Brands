@@ -21,7 +21,10 @@ function CreatorBox({ creator }: any) {
                         </Avatar>
                     </div>
                     <div>
-                        <p className='text-lg font-semibold flex items-center gap-1'>{creator.fullName} {creator.emailVerified && <MdOutlineVerifiedUser />}</p>
+                        <p className='text-lg font-semibold flex items-center gap-1'>
+                            {creator.fullName} {creator.emailVerified && <MdOutlineVerifiedUser />}
+                            <span className='text-sm bg-black text-white rounded-sm px-1 py-[0.8]'>{creator?.ratings.toFixed(1)}⭐ </span>
+                        </p>
                         <p className='text-sm'>{creator.title}</p>
                     </div>
                 </div>
