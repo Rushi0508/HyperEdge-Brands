@@ -12,53 +12,56 @@ function page() {
     const [status, setStatus] = useState("ACTIVE")
     const [campaigns, setCampaigns] = useState<any>(null)
     const [dataLoading, setDataLoading] = useState(false)
-    const fetchCampaigns = async()=>{
-        try{
+    const fetchCampaigns = async () => {
+        try {
             setDataLoading(true)
-            const {data} = await axios.get(`/api/campaign?status=${status}`)
+            const { data } = await axios.get(`/api/campaign?status=${status}`)
 
-            if(data.hasOwnProperty('success')){
+            if (data.hasOwnProperty('success')) {
                 setCampaigns(data.campaigns);
-            }else{
+            } else {
                 toast.error("Can't load campaigns")
             }
-        }catch(e){
+        } catch (e) {
             toast.error("Can't load campaigns")
-        }finally{
+        } finally {
             setDataLoading(false)
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         fetchCampaigns()
     }, [status])
-  return (
-    <Tabs onValueChange={(value)=>setStatus(value)} defaultValue="ACTIVE" className='w-full flex flex-col'>
-        <TabsList className='py-6 px-2 m-auto'>
-            <TabsTrigger className='py-2' value="ACTIVE">Active Campaigns</TabsTrigger>
-            <TabsTrigger className='py-2' value="PLANNED">Planned Campaigns</TabsTrigger>
-            <TabsTrigger className='py-2' value="COMPLETED">Completed Campaigns</TabsTrigger>
-        </TabsList>
-        <TabsContent value={status} className='w-5/6 mx-auto mt-4'>
-            {
-                dataLoading? <Loading/>:
-                !campaigns?.length? `No ${status} campaigns`:
-                campaigns?.map((campaign:any,index:any)=>(
-                    <>
-                    <div className='hover:bg-gray-50 p-4 rounded-lg'>
-                        <p className='tracking-wide text-lg font-semibold'>{campaign.name}</p>
-                        <p className='text-xs text-gray-400'>Posted on: {format(campaign.createdAt, 'PPP')}</p>
-                        <p className='text-sm mt-5'>{campaign.description.substring(0,150)}...</p>
-                        <Button asChild className='p-0 h-auto mt-2' variant={"link"}>
-                            <Link href={`/campaign/${campaign.id}`}>See Activity</Link>
-                        </Button>
-                    </div>
-                    <hr />
-                    </>
-                ))
-            }
-        </TabsContent>
-    </Tabs>
-  )
+    return (
+        <>
+            <p className='text-center font-bold text-2xl mb-4'>Campaigns</p>
+            <Tabs onValueChange={(value) => setStatus(value)} defaultValue="ACTIVE" className='w-full flex flex-col'>
+                <TabsList className='py-6 px-2 m-auto'>
+                    <TabsTrigger className='py-2' value="ACTIVE">Active Campaigns</TabsTrigger>
+                    <TabsTrigger className='py-2' value="PLANNED">Planned Campaigns</TabsTrigger>
+                    <TabsTrigger className='py-2' value="COMPLETED">Completed Campaigns</TabsTrigger>
+                </TabsList>
+                <TabsContent value={status} className='w-5/6 mx-auto mt-4'>
+                    {
+                        dataLoading ? <Loading /> :
+                            !campaigns?.length ? `No ${status} campaigns` :
+                                campaigns?.map((campaign: any, index: any) => (
+                                    <>
+                                        <div className='hover:bg-gray-50 p-4 rounded-lg'>
+                                            <p className='tracking-wide text-lg font-semibold'>{campaign.name}</p>
+                                            <p className='text-xs text-gray-400'>Posted on: {format(campaign.createdAt, 'PPP')}</p>
+                                            <p className='text-sm mt-5'>{campaign.description.substring(0, 150)}...</p>
+                                            <Button asChild className='p-0 h-auto mt-2' variant={"link"}>
+                                                <Link href={`/campaign/${campaign.id}`}>See Activity</Link>
+                                            </Button>
+                                        </div>
+                                        <hr />
+                                    </>
+                                ))
+                    }
+                </TabsContent>
+            </Tabs>
+        </>
+    )
 }
 
 export default page
