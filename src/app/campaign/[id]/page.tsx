@@ -16,9 +16,12 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { timeAgo } from '@/app/actions/timeAgo'
 import { MdOutlineCategory } from 'react-icons/md'
 import ProposalSheet from './ProposalSheet'
+import PaymentModal from './PaymentModal'
 
 function page({ params }: { params: { id: string } }) {
     const [dataLoading, setDataLoading] = useState(true)
+    const [paymentModal, setPaymentModal] = useState(false);
+    const [creatorId, setCreatorId] = useState<any>(null);
     const [campaign, setCampaign] = useState<any>(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -58,7 +61,6 @@ function page({ params }: { params: { id: string } }) {
         const { data } = await axios.post(`/api/campaign/${params.id}`, { id: params.id });
         if (data.hasOwnProperty('success') && data.campaign) {
             setCampaign(data.campaign)
-            console.log(data.campaign)
             const resultArray = []
             for (const collaboration of data.campaign.Collaboration) {
                 const collaborator = data.campaign.collaborators?.find((c: any) => c.id === collaboration.creatorId);
@@ -67,7 +69,8 @@ function page({ params }: { params: { id: string } }) {
                         creatorId: collaboration.creatorId,
                         fullName: collaborator.fullName,
                         avatar: collaborator.avatar,
-                        status: collaboration.status
+                        status: collaboration.status,
+                        payment: collaboration.paymentId ? true : false
                     };
                     resultArray.push(result)
                 }
@@ -181,7 +184,16 @@ function page({ params }: { params: { id: string } }) {
                                             </Avatar>
                                             <div>
                                                 <Link className='hover:underline' href={`/creator/${creator.creatorId}`}>{creator.fullName}</Link>
-                                                <p className='text-xs text-gray-500 italic'>({creator.status})</p>
+                                                <p className='text-xs text-gray-500 italic'>({creator.status})
+                                                    {creator.payment ?
+                                                        <span className='mx-1 text-black'>Payment ✅</span>
+                                                        :
+                                                        <span onClick={() => {
+                                                            setPaymentModal(true);
+                                                            setCreatorId(creator.creatorId);
+                                                        }} className='cursor-pointer mx-1 text-yellow-600 hover:underline' >Make payment</span>
+                                                    }
+                                                </p>
                                             </div>
                                         </div>
                                         <ReloadIcon className="hidden reload-icon mr-2 h-4 w-4 animate-spin" />
@@ -198,6 +210,7 @@ function page({ params }: { params: { id: string } }) {
                     <Button onClick={() => setSheetOpen(true)} size={"sm"}>View Proposals</Button>
                 </div>
             </div>
+            <PaymentModal fetchCampaign={fetchCampaign} campaignId={campaign.id} creatorId={creatorId} setPaymentModal={setPaymentModal} paymentModal={paymentModal} />
             <ProposalSheet campaign={campaign} setSheetOpen={setSheetOpen} sheetOpen={sheetOpen} />
         </div>
     )

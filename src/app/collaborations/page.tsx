@@ -56,7 +56,10 @@ function page() {
                                     <Card key={collaboration.id}>
                                         <CardHeader>
                                             <CardTitle>{collaboration.campaign.name}</CardTitle>
-                                            <CardDescription>{timeAgo(collaboration.createdAt)}</CardDescription>
+                                            <CardDescription className='flex items-center justify-between'>
+                                                <span>{timeAgo(collaboration.createdAt)}</span>
+                                                {collaboration.paymentId && <span>PAYMENT✅</span>}
+                                            </CardDescription>
                                         </CardHeader>
                                         <CardContent className='flex flex-col items-center'>
                                             <div>
