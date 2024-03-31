@@ -2,6 +2,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import categoriesJson from "@/app/actions/categories.json";
+import axios from "axios";
 
 export async function POST(req: Request) {
   function findParentCategories(term: string) {
@@ -46,6 +47,17 @@ export async function POST(req: Request) {
     if (user) {
       if (query == "ai") {
         // categories = creator?.categories
+        const { data } = await axios.post(
+          "https://recommendation-system-production-9607.up.railway.app/reccat",
+          {
+            followers: 350000,
+            minEng: 52000,
+            est_cost: 1000000,
+            category: "Fashion",
+            country: "United States",
+          }
+        );
+        return NextResponse.json({ success: true, creators: data });
       } else if (query == "") {
         categories = getCategories("");
       } else {
