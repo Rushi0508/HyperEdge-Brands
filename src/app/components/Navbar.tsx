@@ -62,11 +62,11 @@ function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <Link href={"/transactions"} legacyBehavior passHref>
+                  <Link href={"/payments"} legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
-                      Transactions
+                      Payments
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
