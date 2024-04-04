@@ -25,7 +25,7 @@ function Collaborations({ user }: any) {
                                                 </Avatar>
                                                 <div>
                                                     <CardTitle>
-                                                        {c.campaign.name.length > 30 ? c.campaign.name.substring(0, 30) + '...' : c.campaign.name}
+                                                        {c.campaign.name.length > 25 ? c.campaign.name.substring(0, 25) + '...' : c.campaign.name}
                                                     </CardTitle>
                                                     <CardDescription>for <span>{c.brand.name}</span></CardDescription>
                                                 </div>
