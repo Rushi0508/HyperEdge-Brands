@@ -5,6 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import Loading from './loading';
 import SearchBar from './components/SearchBar';
+import AICreators from './components/AICreators';
 
 function page() {
   const [creators, setCreators] = useState<any>(null);
@@ -41,9 +42,12 @@ function page() {
                 <p className='text-sm italic text-gray-500'>Showing cretors based on AI Recommendation</p> :
                 <p className='text-sm italic text-gray-500'>Showing {categories ? "" : "all"} creators {categories ? "based on selected categories" : ""}</p>
             }{
-              creators?.map((creator: any, index: any) => (
-                <CreatorBox key={index} creator={creator} />
-              ))
+              categories == "AI" ?
+                <AICreators creators={creators} />
+                :
+                creators?.map((creator: any, index: any) => (
+                  <CreatorBox key={index} creator={creator} />
+                ))
 
             }
           </>

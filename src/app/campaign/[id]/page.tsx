@@ -188,7 +188,7 @@ function page({ params }: { params: { id: string } }) {
                                                     {creator.payment ?
                                                         <span className='mx-1 text-black'>Payment ✅</span>
                                                         :
-                                                        <span onClick={() => {
+                                                        creator.status === "APPROVED" && <span onClick={() => {
                                                             setPaymentModal(true);
                                                             setCreatorId(creator.creatorId);
                                                         }} className='cursor-pointer mx-1 text-yellow-600 hover:underline' >Make payment</span>
