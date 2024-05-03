@@ -11,7 +11,7 @@ function Header({ user }: any) {
           <AvatarFallback>{user?.fullName.substring(0, 1)}</AvatarFallback>
         </Avatar>
         <div>
-          <p className="font-semibold text-3xl flex items-center gap-2">{user?.fullName} <span className='text-sm bg-black text-white rounded-sm py-1 px-2'>{user?.ratings}⭐</span></p>
+          <p className="font-semibold text-3xl flex items-center gap-2">{user?.fullName} <span className='text-sm bg-black text-white rounded-sm py-1 px-2'>{user.ratings ? user?.ratings.toFixed(1) : 0}⭐</span></p>
           <span className="flex items-center mt-1 text-gray-500"><SewingPinIcon className='w-5 h-5' />{user?.state}, {user?.country}</span>
         </div>
       </div>
