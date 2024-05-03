@@ -23,7 +23,7 @@ function CreatorBox({ creator }: any) {
                     <div>
                         <p className='text-lg font-semibold flex items-center gap-1'>
                             {creator.fullName} {creator.emailVerified && <MdOutlineVerifiedUser />}
-                            <span className='text-sm bg-black text-white rounded-sm px-1 py-[0.8]'>{creator?.ratings?.toFixed(1)}⭐ </span>
+                            <span className='text-sm bg-black text-white rounded-sm px-1 py-[0.8]'>{creator.ratings ? creator?.ratings?.toFixed(1) : 0}⭐ </span>
                         </p>
                         <p className='text-sm'>{creator.title}</p>
                     </div>
